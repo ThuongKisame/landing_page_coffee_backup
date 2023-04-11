@@ -1,4 +1,4 @@
-import Home from '@/components/screens/Home';
+import Contact from '@/components/screens/Contact';
 import { Meta } from '@/layouts/Meta';
 import { Main } from '@/templates/Main';
 
@@ -14,7 +14,7 @@ const Index = () => {
         />
       }
     >
-      <Home />
+      <Contact />
     </Main>
   );
 };

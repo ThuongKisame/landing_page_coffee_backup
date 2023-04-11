@@ -1,4 +1,4 @@
-import Home from '@/components/screens/Home';
+import Introduce from '@/components/screens/Introduce';
 import { Meta } from '@/layouts/Meta';
 import { Main } from '@/templates/Main';
 
@@ -14,7 +14,7 @@ const Index = () => {
         />
       }
     >
-      <Home />
+      <Introduce />
     </Main>
   );
 };
