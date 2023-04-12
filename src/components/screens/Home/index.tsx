@@ -2,10 +2,10 @@ import React from 'react';
 
 import Slider from './Slider';
 
-const Index = () => {
+const Index = ({ carousel }: any) => {
   return (
     <main>
-      <Slider />
+      <Slider carousel={carousel} />
     </main>
   );
 };

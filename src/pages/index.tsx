@@ -1,10 +1,21 @@
+import type { GetServerSideProps } from 'next';
+
 import Home from '@/components/screens/Home';
 import { Meta } from '@/layouts/Meta';
+import { client } from '@/libs/sanity';
 import { Main } from '@/templates/Main';
 
-const Index = () => {
-  // const router = useRouter();
+export const getServerSideProps: GetServerSideProps = async () => {
+  const carousel = await client.fetch(`*[_type == "carousel"]`);
+  return {
+    props: {
+      carousel,
+    },
+  };
+};
 
+const Index = ({ carousel }: any) => {
+  console.log('carousel', carousel);
   return (
     <Main
       meta={
@@ -14,7 +25,7 @@ const Index = () => {
         />
       }
     >
-      <Home />
+      <Home carousel={carousel} />
     </Main>
   );
 };
