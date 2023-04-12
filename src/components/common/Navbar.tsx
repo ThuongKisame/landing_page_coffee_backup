@@ -9,7 +9,10 @@ import { navBar } from '@/masterdata/common';
 const Navbar = () => {
   const navRef = useRef(navBar);
   return (
-    <header aria-label="Site Header" className="sticky top-0 w-full bg-white">
+    <header
+      aria-label="Site Header"
+      className="fixed top-0 z-40 w-full bg-white"
+    >
       <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           <div className="md:flex md:items-center md:gap-12">
@@ -62,7 +65,7 @@ const Navbar = () => {
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
-                  stroke-width="2"
+                  strokeWidth="2"
                 >
                   <path
                     stroke-linecap="round"

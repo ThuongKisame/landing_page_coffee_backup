@@ -9,7 +9,7 @@ type IMainProps = {
 };
 
 const Main = (props: IMainProps) => (
-  <div className="w-full text-gray-700 antialiased">
+  <div className="mt-16 w-full text-gray-700 antialiased">
     <Navbar />
     {props.meta}
     {props.children}
