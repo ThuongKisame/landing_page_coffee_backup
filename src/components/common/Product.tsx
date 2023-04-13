@@ -2,7 +2,7 @@ import Link from 'next/link';
 import React from 'react';
 
 interface ProductProps {
-  price: string;
+  price: number;
   name: string;
   image: string;
   discount: number;
@@ -36,13 +36,13 @@ const Product = ({ price, name, image, discount, slug }: ProductProps) => {
               {new Intl.NumberFormat('vi-VN', {
                 style: 'currency',
                 currency: 'VND',
-              }).format(+price)}
+              }).format(price - (price * discount) / 100)}
             </span>
             <span className="text-base font-semibold tracking-wider text-gray-500 line-through">
               {new Intl.NumberFormat('vi-VN', {
                 style: 'currency',
                 currency: 'VND',
-              }).format(+price)}
+              }).format(price)}
             </span>
           </p>
         </div>

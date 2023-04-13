@@ -2,7 +2,7 @@ import React from 'react';
 
 import Product from '@/components/common/Product';
 
-const Index = () => {
+const RelatedProducts = () => {
   return (
     <section>
       <div className="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
@@ -47,4 +47,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default RelatedProducts;
