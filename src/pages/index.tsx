@@ -7,15 +7,18 @@ import { Main } from '@/templates/Main';
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const carousel = await client.fetch(`*[_type == "carousel"]`);
+  const products = await client.fetch(`*[_type == "product"]`);
   return {
     props: {
       carousel,
+      products,
     },
   };
 };
 
-const Index = ({ carousel }: any) => {
-  console.log('carousel', carousel);
+const Index = ({ carousel, products }: any) => {
+  // console.log('carousel', carousel);
+  // console.log('products', products);
   return (
     <Main
       meta={
@@ -25,7 +28,7 @@ const Index = ({ carousel }: any) => {
         />
       }
     >
-      <Home carousel={carousel} />
+      <Home carousel={carousel} products={products} />
     </Main>
   );
 };
