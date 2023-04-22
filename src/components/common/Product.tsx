@@ -16,9 +16,11 @@ const Product = ({ price, name, image, discount, slug }: ProductProps) => {
         href={`/shop/${slug}`}
         className="group relative block overflow-hidden"
       >
-        <span className="absolute right-2 top-2 z-10 whitespace-nowrap rounded-full bg-purple-100 px-2.5 py-0.5 text-sm text-purple-700">
-          {discount}%
-        </span>
+        {discount !== 0 && (
+          <span className="absolute right-2 top-2 z-10 whitespace-nowrap rounded-full bg-purple-100 px-2.5 py-0.5 text-sm text-purple-700">
+            {discount}%
+          </span>
+        )}
 
         <img
           src={image}
@@ -27,7 +29,7 @@ const Product = ({ price, name, image, discount, slug }: ProductProps) => {
         />
 
         <div className="relative bg-white pt-3">
-          <h3 className="text-sm font-medium text-gray-700 group-hover:underline group-hover:underline-offset-4">
+          <h3 className="line-clamp-1 text-sm font-medium text-gray-700 group-hover:underline group-hover:underline-offset-4">
             {name}
           </h3>
 
@@ -38,12 +40,14 @@ const Product = ({ price, name, image, discount, slug }: ProductProps) => {
                 currency: 'VND',
               }).format(price - (price * discount) / 100)}
             </span>
-            <span className="text-base font-semibold tracking-wider text-gray-500 line-through">
-              {new Intl.NumberFormat('vi-VN', {
-                style: 'currency',
-                currency: 'VND',
-              }).format(price)}
-            </span>
+            {discount !== 0 && (
+              <span className="text-base font-semibold tracking-wider text-gray-500 line-through">
+                {new Intl.NumberFormat('vi-VN', {
+                  style: 'currency',
+                  currency: 'VND',
+                }).format(price)}
+              </span>
+            )}
           </p>
         </div>
       </Link>

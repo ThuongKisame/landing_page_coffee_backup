@@ -1,10 +1,45 @@
+import type { GetServerSideProps } from 'next';
+
+import NotFound from '@/components/common/NotFound';
 import DetailProduct from '@/components/screens/Product';
 import { Meta } from '@/layouts/Meta';
+import { client, urlFor } from '@/libs/sanity';
 import { Main } from '@/templates/Main';
 
-const Index = () => {
-  // const router = useRouter();
+const getProductBySlug = async (slug: string) => {
+  const query = `*[_type == "product" && slug.current == "${slug}"]{
+    name,
+    slug,
+    mainImage,
+    discount,
+    thumbnailImages[],
+    price,
+    categories[]->{
+      title
+    },
+    body
+  }`;
+  const products = await client.fetch(query);
+  return products[0];
+};
 
+const getProductByCategoryName = async (category: string) => {
+  const query = `*[_type == "product" && references(*[_type == "category" && title == "${category}"]._id)]`;
+  const products = await client.fetch(query);
+  return products;
+};
+
+const Index = ({ product, productsByCategories }: any) => {
+  const thumbnailImage: string[] = [];
+  /* eslint-disable */
+  if (product !== null) {
+    if (product.thumbnailImages) {
+      product.thumbnailImages.forEach((e: any) => {
+        thumbnailImage.push(urlFor(e.asset._ref).url());
+      });
+    }
+  }
+  /* eslint-enable */
   return (
     <Main
       meta={
@@ -14,20 +49,42 @@ const Index = () => {
         />
       }
     >
-      <DetailProduct
-        price={100000}
-        name="Simple Clothes Basic Tee"
-        image="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
-        discount={10}
-        description="lorem10"
-        category={['category']}
-        thumbnail={[
-          'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80',
-          'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80',
-        ]}
-      />
+      {/* eslint-disable */}
+      {product ? (
+        <DetailProduct
+          price={product.price}
+          name={product.name}
+          slug={product.slug.current}
+          image={urlFor(product.mainImage.asset._ref).url()}
+          discount={product.discount}
+          description={product.body[0].children[0].text}
+          category={product.categories}
+          thumbnail={thumbnailImage}
+          amount={1}
+          productsByCategories={productsByCategories}
+        />
+      ) : (
+        <NotFound />
+      )}
+      {/* eslint-enable */}
     </Main>
   );
+};
+
+export const getServerSideProps: GetServerSideProps<any> = async ({
+  params,
+}) => {
+  const { slug }: any = params;
+  const product = (await getProductBySlug(slug as string)) ?? null;
+  let productsByCategories = [];
+  if (product != null) {
+    productsByCategories =
+      (await getProductByCategoryName(product.categories[0].title as string)) ??
+      [];
+  }
+  return {
+    props: { product, productsByCategories },
+  };
 };
 
 export default Index;

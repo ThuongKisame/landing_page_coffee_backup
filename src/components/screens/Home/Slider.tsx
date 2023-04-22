@@ -14,9 +14,6 @@ const Slider = ({ carousel }: any) => {
       infiniteLoop
       swipeable
       emulateTouch
-      // onChange={onChange}
-      // onClickItem={onClickItem}
-      // onClickThumb={onClickThumb}
     >
       {carousel[0].images.map((item: any, index: any) => (
         <div key={index}>

@@ -1,50 +1,36 @@
-import React from 'react';
+import { memo } from 'react';
 
 import Product from '@/components/common/Product';
+import { urlFor } from '@/libs/sanity';
 
-const RelatedProducts = () => {
+const RelatedProducts = ({ productsByCategories }: any) => {
   return (
     <section>
       <div className="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
         <header>
           <h2 className="text-xl font-bold text-gray-900 sm:text-3xl">
-            Cửa hàng
+            Các sản phẩm liên quan
           </h2>
         </header>
-
+        {/* eslint-disable */}
         <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          <Product
-            image="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
-            price={100000}
-            name="Basic Tee"
-            discount={10}
-            slug="product-1"
-          />
-          <Product
-            image="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
-            price={100000}
-            name="Basic Tee"
-            discount={10}
-            slug="product-1"
-          />
-          <Product
-            image="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
-            price={100000}
-            name="Basic Tee"
-            discount={10}
-            slug="product-1"
-          />
-          <Product
-            image="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
-            price={100000}
-            name="Basic Tee"
-            discount={10}
-            slug="product-1"
-          />
+          {productsByCategories.map((product: any, index: any) => {
+            return (
+              <Product
+                key={index}
+                image={urlFor(product.mainImage.asset._ref).url()}
+                price={product.price}
+                name={product.name}
+                discount={product.discount}
+                slug={product.slug.current}
+              />
+            );
+          })}
         </ul>
+        {/* eslint-enable */}
       </div>
     </section>
   );
 };
 
-export default RelatedProducts;
+export default memo(RelatedProducts);

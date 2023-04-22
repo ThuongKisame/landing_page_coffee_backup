@@ -29,6 +29,7 @@
   "dependencies": {
     "@sanity/client": "^5.4.2",
     "@sanity/image-url": "^1.0.2",
+    "@tippyjs/react": "^4.2.6",
     "next": "^13.3.0",
     "next-seo": "^5.15.0",
     "next-sitemap": "^4.0.6",
@@ -36,7 +37,8 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.8.0",
-    "react-responsive-carousel": "^3.2.23"
+    "react-responsive-carousel": "^3.2.23",
+    "react-toastify": "^9.1.2"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.5.1",

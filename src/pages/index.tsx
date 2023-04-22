@@ -6,8 +6,11 @@ import { client } from '@/libs/sanity';
 import { Main } from '@/templates/Main';
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const carousel = await client.fetch(`*[_type == "carousel"]`);
-  const products = await client.fetch(`*[_type == "product"]`);
+  const [carousel, products] = await Promise.all([
+    client.fetch(`*[_type == "carousel"]`),
+    client.fetch(`*[_type == "product" && highlight==true]`),
+  ]);
+
   return {
     props: {
       carousel,
@@ -17,7 +20,6 @@ export const getServerSideProps: GetServerSideProps = async () => {
 };
 
 const Index = ({ carousel, products }: any) => {
-  // console.log('carousel', carousel);
   // console.log('products', products);
   return (
     <Main
