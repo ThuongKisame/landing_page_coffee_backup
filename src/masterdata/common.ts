@@ -16,7 +16,7 @@ export const navBar = [
     link: '/contact',
   },
   {
-    title: 'Thanh toán',
+    title: 'Đặt hàng',
     link: '/cart',
   },
 ];

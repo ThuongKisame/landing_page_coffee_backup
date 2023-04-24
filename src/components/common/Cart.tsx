@@ -93,7 +93,7 @@ export default function App() {
             <strong className="block p-2 text-base font-medium  text-gray-400">
               Giỏ hàng của tôi
             </strong>
-            {/* //list product */}
+
             <ul className="">
               {cartItems.map((item: DetailProductProps, index) => (
                 <CartItem item={item} key={index} />

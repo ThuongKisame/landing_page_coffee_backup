@@ -7,6 +7,8 @@ export default interface DetailProductProps {
   description: string;
   slug: string;
   amount: number;
+  linkvideo: string;
+  status: boolean;
   category: Array<{ title: string }>;
   productsByCategories: any;
 }

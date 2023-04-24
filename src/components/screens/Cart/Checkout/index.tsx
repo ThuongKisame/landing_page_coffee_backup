@@ -233,10 +233,10 @@ function Index() {
                     </tbody>
                   </table>
                 </div>
-                <div className="w-full   border-t-2 border-gray-600">
-                  <div className="flex justify-between border-b border-gray-600 px-0 sm:px-4">
+                <div className="w-full  border-t-2 border-gray-600">
+                  <div className="flex justify-between border-b border-gray-600 px-0 py-1 sm:px-4">
                     <span className="font-medium">Tổng tiền</span>
-                    <span className="pr-4 text-gray-700 sm:pr-10">
+                    <span className="pr-4 font-bold text-gray-700 sm:pr-10">
                       {new Intl.NumberFormat('vi-VN', {
                         style: 'currency',
                         currency: 'VND',

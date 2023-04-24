@@ -49,12 +49,18 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
 
   // Add a product to the cart
   const addToCart = (product: DetailProductProps) => {
+    if (!product.status) {
+      toast.warn('Sản phẩm đã hết hàng!', {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      return;
+    }
     const checkExistItem = cartItems.filter((item) => {
       return item.slug === product.slug;
     });
 
     if (checkExistItem.length > 0) {
-      toast.warn('Sản phẩm đã được thêm vào giỏ hàng!', {
+      toast.warn('Sản phẩm đã tồn tại giỏ hàng!', {
         position: toast.POSITION.TOP_RIGHT,
       });
     } else {

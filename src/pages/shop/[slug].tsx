@@ -14,6 +14,8 @@ const getProductBySlug = async (slug: string) => {
     discount,
     thumbnailImages[],
     price,
+    linkvideo,
+    status,
     categories[]->{
       title
     },
@@ -31,6 +33,8 @@ const getProductByCategoryName = async (category: string) => {
 
 const Index = ({ product, productsByCategories }: any) => {
   const thumbnailImage: string[] = [];
+
+  console.log(product.linkvideo);
   /* eslint-disable */
   if (product !== null) {
     if (product.thumbnailImages) {
@@ -57,6 +61,8 @@ const Index = ({ product, productsByCategories }: any) => {
           slug={product.slug.current}
           image={urlFor(product.mainImage.asset._ref).url()}
           discount={product.discount}
+          linkvideo={product.linkvideo}
+          status={product.status}
           description={product.body[0].children[0].text}
           category={product.categories}
           thumbnail={thumbnailImage}

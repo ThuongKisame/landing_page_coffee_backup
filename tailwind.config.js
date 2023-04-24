@@ -18,6 +18,12 @@ module.exports = {
       fontFamily: {
         montserrat: ['Montserrat', 'sans-serif'],
       },
+      keyframes: {
+        appear: {
+          '0%': { transform: 'scale(1, 0)' },
+          '100%': { transform: 'scale(1, 1)' },
+        },
+      },
     },
   },
   plugins: [],

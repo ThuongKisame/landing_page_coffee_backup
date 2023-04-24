@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
+import YouTube from 'react-youtube';
 
 import { CartContext } from '@/contexts/CartContext';
 import type DetailProductProps from '@/types/DetailProductProps';
@@ -18,6 +19,8 @@ const Index = React.memo(
     image,
     slug,
     amount,
+    status,
+    linkvideo,
     discount,
     description,
     category,
@@ -25,6 +28,12 @@ const Index = React.memo(
     productsByCategories,
   }: DetailProductProps) => {
     const { addToCart } = useContext(CartContext);
+
+    const opts = {
+      playerVars: {
+        autoplay: 0,
+      },
+    };
 
     const handleAddToCart = (product: DetailProductProps) => {
       addToCart(product);
@@ -79,6 +88,8 @@ const Index = React.memo(
       setListImages(transformImage(thumbnail, image));
     }, [image, thumbnail]);
 
+    console.log(linkvideo);
+
     return (
       <>
         <section>
@@ -132,6 +143,21 @@ const Index = React.memo(
                       ))}
                     </div>
                   </fieldset>
+                  <fieldset>
+                    <legend className="text-lg font-bold">Trạng thái</legend>
+
+                    <div className="mt-2 flex flex-wrap gap-1">
+                      {status ? (
+                        <span className="block rounded-full border border-gray-200 px-3 py-1 text-xs text-green-500 peer-checked:bg-gray-100">
+                          Còn hàng
+                        </span>
+                      ) : (
+                        <span className="block rounded-full border border-gray-200 px-3 py-1 text-xs text-red-500 peer-checked:bg-gray-100">
+                          Hết hàng
+                        </span>
+                      )}
+                    </div>
+                  </fieldset>
 
                   <div className="rounded border bg-gray-100 p-4">
                     <p className="text-sm">
@@ -156,6 +182,14 @@ const Index = React.memo(
                     )}
                   </div>
 
+                  {/* {linkvideo&&
+                    <fieldset>
+                      <a className="font-bold " href={linkvideo}>
+                        Link giới thiệu chi tiết sản phẩm  
+                      </a>
+                    </fieldset>
+                  } */}
+
                   <button
                     className="w-full rounded bg-[#A47E3B] px-6 py-3 text-sm font-bold uppercase tracking-wide text-white"
                     onClick={() =>
@@ -166,6 +200,8 @@ const Index = React.memo(
                         slug,
                         discount,
                         description,
+                        status,
+                        linkvideo,
                         amount,
                         category,
                         thumbnail,
@@ -187,6 +223,17 @@ const Index = React.memo(
                   <p>{description}</p>
                 </div>
               </div>
+
+              {linkvideo && (
+                <div className="lg:col-span-3">
+                  <legend className="py-2 text-lg font-bold">
+                    Video đánh giá sản phẩm
+                  </legend>
+                  <div className="prose max-w-none">
+                    <YouTube videoId={linkvideo} opts={opts} />
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </section>
