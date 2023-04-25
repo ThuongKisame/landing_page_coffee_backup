@@ -33,3 +33,37 @@ export const getProductByCategories = async ({
   const products = await client.fetch(query);
   return products;
 };
+
+export const getAllProducts = async ({
+  currentPage,
+  perPage,
+}: {
+  currentPage: number;
+  perPage: number;
+}) => {
+  const query = `{
+    "items": *[_type == "product"] | order(_id)[${
+      currentPage * perPage - perPage
+    }...${currentPage * perPage}]{
+      name,
+      slug,
+      mainImage,
+      discount,
+      thumbnailImages[],
+      price,
+      linkVideo,
+      status,
+      categories[]->{
+        title
+      },
+      body
+    },
+     "total": count(*[_type == "product"]) 
+
+}`;
+
+  console.log(query);
+
+  const listProducts = await client.fetch(query);
+  return listProducts;
+};
