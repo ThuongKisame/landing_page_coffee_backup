@@ -2,15 +2,15 @@ import Tippy from '@tippyjs/react/headless';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { useContext, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { BiSearch } from 'react-icons/bi';
 import { CgShoppingBag } from 'react-icons/cg';
 import { IoCloseSharp } from 'react-icons/io5';
 
-import { CartContext } from '@/contexts/CartContext';
+// import { CartContext } from '@/contexts/CartContext';
 import { navBar } from '@/masterdata/common';
 
-import Cart from './Cart';
+// import Cart from './Cart';
 import InputSearch from './InputSearch';
 import MobileNavbar from './MobileNavbar';
 
@@ -21,7 +21,7 @@ const Navbar = () => {
 
   const navRef = useRef(navBar);
 
-  const { cartItems } = useContext(CartContext);
+  // const { cartItems } = useContext(CartContext);
 
   const [isSearchVisible, setIsSearchVisible] = useState(false);
   const toggleSearch = () => {
@@ -86,7 +86,7 @@ const Navbar = () => {
                 onClickOutside={toggleCartNav}
                 render={(attrs) => (
                   <div className="mt-1 shadow" tabIndex={-1} {...attrs}>
-                    {isCartNavVisible && <Cart />}
+                    {/* {isCartNavVisible && <Cart />} */}
                   </div>
                 )}
               >
@@ -96,7 +96,7 @@ const Navbar = () => {
                 >
                   <CgShoppingBag size={26} />
                   <span className="absolute right-0 top-0 -translate-y-2.5 translate-x-2.5 whitespace-nowrap rounded-full bg-yellow-300 px-2 py-0.5 text-xs text-yellow-700">
-                    {cartItems.length}
+                    {/* {cartItems.length} */}
                   </span>
                 </div>
               </Tippy>
