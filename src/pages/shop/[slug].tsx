@@ -2,7 +2,6 @@ import type { GetServerSideProps } from 'next';
 
 import NotFound from '@/components/common/NotFound';
 import DetailProduct from '@/components/screens/Product';
-import { Meta } from '@/layouts/Meta';
 import { client, urlFor } from '@/libs/sanity';
 import { Main } from '@/templates/Main';
 
@@ -45,14 +44,7 @@ const Index = ({ product, productsByCategories }: any) => {
   }
   /* eslint-enable */
   return (
-    <Main
-      meta={
-        <Meta
-          title="Coffee"
-          description="Next js Boilerplate is the perfect starter code for your project. Build your React application with the Next.js framework."
-        />
-      }
-    >
+    <Main>
       {/* eslint-disable */}
       {product ? (
         <DetailProduct
