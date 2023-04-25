@@ -6,7 +6,8 @@ const Footer = () => {
   return (
     <footer className="border-t border-gray-300 py-8 text-center text-sm">
       © Copyright {new Date().getFullYear()} {AppConfig.title}. Made with{' '}
-      <a href="https://creativedesignsguru.com">CreativeDesignsGuru</a>.
+      <a href="https://www.facebook.com/minhkhuy76/">Minh Khuy</a> and{' '}
+      <a href="https://www.facebook.com/thuong.nhat.319">Nhật Thương</a>
       {/*
        * PLEASE READ THIS SECTION
        * I'm an indie maker with limited resources and funds, I'll really appreciate if you could have a link to my website.
