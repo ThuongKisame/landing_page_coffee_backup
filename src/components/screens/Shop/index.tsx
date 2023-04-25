@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 import Product from '@/components/common/Product';
+import Skeleton from '@/components/common/Skeleton';
 import { getAllProducts } from '@/libs/getData';
 import { urlFor } from '@/libs/sanity';
 
@@ -9,6 +10,7 @@ import Pagination from './Pagination';
 
 const Index = () => {
   const [products, setProducts] = useState<any>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [totalPage, setTotalPage] = useState<number>(1);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const perPage = useRef<number>(2);
@@ -17,6 +19,7 @@ const Index = () => {
 
   useEffect(() => {
     const fetchListProducts = async () => {
+      setIsLoading(true);
       try {
         const data =
           (await getAllProducts({ perPage: perPage.current, currentPage })) ??
@@ -26,6 +29,7 @@ const Index = () => {
       } catch (error) {
         console.log(error);
       }
+      setIsLoading(false);
     };
     fetchListProducts();
   }, [currentPage]);
@@ -42,7 +46,11 @@ const Index = () => {
 
         <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {/* eslint-disable */}
-          { products.map((product: any, index: any) => {
+
+          {isLoading ? <>{
+            Array.from(Array(perPage.current).keys()).map(item=><Skeleton key={item}/>)
+          }</>: <>{
+            products.map((product: any, index: any) => {
               return (
                 <Product
                   key={index}
@@ -53,7 +61,8 @@ const Index = () => {
                   slug={product.slug.current}
                 />
               );
-            })}
+            })
+          }</>}
           {/* eslint-enable */}
         </ul>
         {/* Pagination */}
