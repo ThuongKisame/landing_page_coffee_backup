@@ -8,5 +8,5 @@ export default interface DetailProductType {
   slug: string;
   linkVideo: string;
   status: boolean;
-  categories: Array<{ title: string }>;
+  categories: string[];
 }

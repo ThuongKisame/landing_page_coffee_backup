@@ -9,7 +9,7 @@ import type DetailProductType from '@/types/DetailProductType';
 import { YouTubeGetID } from '@/utils';
 
 const Index = ({ product }: any) => {
-  console.log('detail product', product);
+  // console.log('detail product', product);
   const [data, setData] = useState<DetailProductType>({
     id: '',
     price: 0,
@@ -30,18 +30,20 @@ const Index = ({ product }: any) => {
         id: product._id,
         price: product.price,
         name: product.name,
-        images: [
+        images: product?.thumbnailImages ? [
           urlFor(product.mainImage.asset._ref).url(),
           ...product?.thumbnailImages?.map((item: any) =>
             urlFor(item.asset._ref).url()
           ),
-        ],
+        ]:[
+          urlFor(product.mainImage.asset._ref).url(),
+        ] ,
         discount: product.discount,
         description: product.body,
         slug: product?.slug?.current,
         linkVideo: product?.linkVideo && YouTubeGetID(product?.linkVideo),
         status: product?.status,
-        categories: [...product?.categories],
+        categories: [...product?.categories.map((item:any)=>item?.title)],
       });
     };
     formatData();

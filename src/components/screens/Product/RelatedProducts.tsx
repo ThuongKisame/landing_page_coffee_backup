@@ -12,20 +12,21 @@ const RelatedProducts = ({
   currentId: string;
 }) => {
   const [listProducts, setListProducts] = useState<any>([]);
+
   useEffect(() => {
     const fetchRelatedProducts = async () => {
       try {
-        const productsByCategories =
-          (await getProductByCategories({ categories, currentId })) ?? [];
+        const productsByCategories = await getProductByCategories({
+          categories,
+          currentId,
+        });
         setListProducts(productsByCategories);
       } catch (error) {
         console.log('error', error);
       }
     };
     fetchRelatedProducts();
-  }, [categories]);
-
-  console.log('listProducts', listProducts);
+  }, [currentId, categories]);
 
   return (
     <section>

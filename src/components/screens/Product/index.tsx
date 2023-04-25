@@ -42,7 +42,6 @@ const Index = ({
   categories,
 }: DetailProductType) => {
   // const { addToCart } = useContext(CartContext);
-  console.log('id', id);
 
   const opts = {
     playerVars: {
@@ -76,7 +75,7 @@ const Index = ({
                         key={index}
                         className="block rounded-full border border-gray-200 px-3 py-1 text-xs peer-checked:bg-gray-100"
                       >
-                        {item.title}
+                        {item}
                       </span>
                     ))}
                   </div>
@@ -170,10 +169,10 @@ const Index = ({
           </div>
         </div>
       </section>
-      <RelatedProducts
-        categories={categories.map((item) => item.title)}
-        currentId={id}
-      />
+
+      {id && categories && (
+        <RelatedProducts categories={categories} currentId={id} />
+      )}
     </>
   );
 };
