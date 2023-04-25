@@ -74,6 +74,11 @@ export const getServerSideProps: GetServerSideProps<any> = async ({
 }) => {
   const { slug }: any = params;
   const product = (await getProductBySlug(slug as string)) ?? null;
+  if (!product) {
+    return {
+      notFound: true,
+    };
+  }
   let productsByCategories = [];
   if (product != null) {
     productsByCategories =
