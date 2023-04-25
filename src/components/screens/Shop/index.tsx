@@ -13,7 +13,7 @@ const Index = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [totalPage, setTotalPage] = useState<number>(1);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const perPage = useRef<number>(2);
+  const perPage = useRef<number>(8);
 
   console.log('products', products);
 

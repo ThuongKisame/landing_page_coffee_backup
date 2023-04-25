@@ -12,7 +12,7 @@ const Pagination = ({
   setCurrentPage,
 }: PaginationProps) => {
   const handleIncrement = () => {
-    if (currentPage <= totalPage) {
+    if (currentPage < totalPage) {
       setCurrentPage(currentPage + 1);
     }
   };
