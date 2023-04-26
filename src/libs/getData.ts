@@ -46,6 +46,9 @@ export const getAllProducts = async ({
   perPage: number;
   filter: FilterType;
 }) => {
+  const searchFilter = filter.search
+    ? `&& name match "${decodeURIComponent(filter.search)}*"`
+    : '';
   const categoriesFilter =
     filter.categories.length > 0
       ? `&& references(*[_type == "category" && title in [${filter.categories.map(
@@ -57,7 +60,7 @@ export const getAllProducts = async ({
       ? `order(${filter.orderBy.type} ${filter.orderBy.order})`
       : '';
   const query = `{
-      "items": *[_type == "product" ${categoriesFilter}] | ${orderFilter}[${
+      "items": *[_type == "product" ${categoriesFilter} ${searchFilter}] | ${orderFilter}[${
     currentPage * perPage - perPage
   }...${currentPage * perPage}]{
         name,
@@ -76,6 +79,8 @@ export const getAllProducts = async ({
        "total": count(*[_type == "product" ${categoriesFilter}])
 
   }`;
+
+  // console.log(query);
 
   const listProducts = await client.fetch(query);
   return listProducts;

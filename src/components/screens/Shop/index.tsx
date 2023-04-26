@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import React, { useEffect, useRef, useState } from 'react';
 
 import Product from '@/components/common/Product';
@@ -20,6 +21,7 @@ export interface FilterType {
 }
 
 const Index = () => {
+  const router = useRouter();
   const [products, setProducts] = useState<any>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [totalPage, setTotalPage] = useState<number>(1);
@@ -27,11 +29,15 @@ const Index = () => {
   const [filter, setFilter] = useState<FilterType>({
     orderBy: { type: '', order: '' },
     categories: [],
-    search: '',
+    search: (router?.query?.search as string) ?? '',
   });
   const perPage = useRef<number>(8);
-  console.log('filter', filter);
+  // console.log('filter', filter);
   // console.log('products', products);
+
+  useEffect(() => {
+    setFilter({ ...filter, search: (router?.query?.search as string) ?? '' });
+  }, [router?.query?.search]);
 
   useEffect(() => {
     const fetchListProducts = async () => {
@@ -55,11 +61,24 @@ const Index = () => {
   return (
     <section>
       <div className="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
-        <header className="flex items-center justify-between">
-          <h2 className="text-xl font-bold text-gray-900 sm:text-3xl">
+        <header className="flex items-center justify-between gap-8">
+          <h2 className="w-[20rem] text-xl font-bold text-gray-900 sm:text-3xl">
             Cửa hàng
           </h2>
-          <FilterTopSide setFilter={setFilter} />
+          <div className="flex w-full items-end justify-between">
+            <div>
+              {filter.search && (
+                <div>
+                  Tìm kiếm với từ khóa{' '}
+                  <strong>
+                    &quot;{decodeURIComponent(filter.search)}&quot;
+                  </strong>
+                </div>
+              )}
+            </div>
+
+            <FilterTopSide setFilter={setFilter} />
+          </div>
         </header>
 
         <div className="mt-8 flex w-full gap-8">
@@ -70,6 +89,9 @@ const Index = () => {
             />
           </div>
           <div className="w-full grow">
+            {!isLoading && products.length === 0 && (
+              <p>Không tìm thấy sản phẩm.</p>
+            )}
             <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {/* eslint-disable */}
 
@@ -89,16 +111,19 @@ const Index = () => {
               );
             })
           }</>}
+          
           {/* eslint-enable */}
             </ul>
             {/* Pagination */}
-            <div className="mt-8 flex w-full justify-center">
-              <Pagination
-                totalPage={totalPage}
-                currentPage={currentPage}
-                setCurrentPage={setCurrentPage}
-              />
-            </div>
+            {!isLoading && products.length > 0 && (
+              <div className="mt-8 flex w-full justify-center">
+                <Pagination
+                  totalPage={totalPage}
+                  currentPage={currentPage}
+                  setCurrentPage={setCurrentPage}
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>
