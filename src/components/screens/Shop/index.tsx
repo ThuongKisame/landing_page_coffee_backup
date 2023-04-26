@@ -51,7 +51,7 @@ const Index = () => {
       setIsLoading(false);
     };
     fetchListProducts();
-  }, [currentPage]);
+  }, [currentPage, filter]);
 
   return (
     <section>

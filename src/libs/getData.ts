@@ -46,10 +46,14 @@ export const getAllProducts = async ({
   filter: FilterType;
 }) => {
   console.log('filter', filter);
+  const orderFilter =
+    filter.orderBy.type && filter.orderBy.order
+      ? `order(${filter.orderBy.type} ${filter.orderBy.order})`
+      : '';
   const query = `{
-    "items": *[_type == "product"] | order(_id)[${
-      currentPage * perPage - perPage
-    }...${currentPage * perPage}]{
+    "items": *[_type == "product"] | ${orderFilter}[${
+    currentPage * perPage - perPage
+  }...${currentPage * perPage}]{
       name,
       slug,
       mainImage,
@@ -66,6 +70,8 @@ export const getAllProducts = async ({
      "total": count(*[_type == "product"]) 
 
 }`;
+
+  console.log('query', query);
 
   const listProducts = await client.fetch(query);
   return listProducts;

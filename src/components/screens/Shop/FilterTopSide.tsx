@@ -5,7 +5,7 @@ import type { FilterType } from '.';
 type ItemSortFilterType = {
   title: string;
   key: string;
-  type: 'wording' | 'price' | 'createAt';
+  type: 'name' | 'price' | '_createdAt';
   order: 'asc' | 'desc';
 };
 
@@ -16,8 +16,8 @@ interface FilterTopSideProps {
 const FilterTopSide = ({ setFilter }: FilterTopSideProps) => {
   const [activeItem, setActiveItem] = useState<string>('Mặc định');
   const itemsRef = useRef<ItemSortFilterType[]>([
-    { title: 'A -> Z', key: 'a-z', type: 'wording', order: 'asc' },
-    { title: 'Z -> A', key: 'z-a', type: 'wording', order: 'desc' },
+    { title: 'A -> Z', key: 'a-z', type: 'name', order: 'asc' },
+    { title: 'Z -> A', key: 'z-a', type: 'name', order: 'desc' },
     {
       title: 'Giá tăng dần',
       key: 'gia-tang-dan',
@@ -33,13 +33,13 @@ const FilterTopSide = ({ setFilter }: FilterTopSideProps) => {
     {
       title: 'Hàng mới nhất',
       key: 'hang-moi-nhat',
-      type: 'createAt',
+      type: '_createdAt',
       order: 'asc',
     },
     {
       title: 'Hàng cũ nhất',
       key: 'hang-cu-nhat',
-      type: 'createAt',
+      type: '_createdAt',
       order: 'desc',
     },
   ]);
