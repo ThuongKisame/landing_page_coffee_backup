@@ -1,17 +1,33 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
+
+type ItemSortFilterType = {
+  title: string;
+  key: string;
+  query: string;
+};
 
 const FilterTopSide = () => {
-  return (
-    <div className="relative">
-      <div className="inline-flex items-center overflow-hidden rounded-md border bg-white">
-        <a
-          href="#"
-          className="border-e px-4 py-2 text-sm/none text-gray-600 hover:bg-gray-50 hover:text-gray-700"
-        >
-          Edit
-        </a>
+  const [activeItem, setActiveItem] = useState<string>('Mặc định');
+  const itemsRef = useRef<ItemSortFilterType[]>([
+    { title: 'A -> Z', query: '', key: 'a-z' },
+    { title: 'Z -> A', query: '', key: 'z-a' },
+    { title: 'Giá tăng dần', query: '', key: 'gia-tang-dan' },
+    { title: 'Giá giảm dần', query: '', key: 'gia-giam-dan' },
+    { title: 'Hàng mới nhất', query: '', key: 'hang-moi-nhat' },
+    { title: 'Hàng cũ nhất', query: '', key: 'hang-cu-nhat' },
+  ]);
 
-        <button className="h-full p-2 text-gray-600 hover:bg-gray-50 hover:text-gray-700">
+  const handleOnClickItem = (title: string) => {
+    setActiveItem(title);
+  };
+  return (
+    <div className="group relative ">
+      <div className="inline-flex items-center overflow-hidden rounded-md border bg-white">
+        <div className="cursor-default border-e px-4 py-2 text-sm/none text-gray-600 hover:bg-gray-50 hover:text-gray-700">
+          Sắp xếp: <span>{activeItem}</span>
+        </div>
+
+        <button className=" h-full p-2 text-gray-600 hover:bg-gray-50 hover:text-gray-700">
           <span className="sr-only">Menu</span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -29,65 +45,22 @@ const FilterTopSide = () => {
       </div>
 
       <div
-        className="absolute end-0 z-10 mt-2 w-56 rounded-md border border-gray-100 bg-white shadow-lg"
+        className="invisible absolute end-0 z-20 mt-2 w-56 rounded-md border border-gray-100 bg-white opacity-0 shadow-lg group-hover:visible group-hover:opacity-100"
         role="menu"
       >
         <div className="p-2">
-          <a
-            href="#"
-            className="block rounded-lg px-4 py-2 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700"
-            role="menuitem"
-          >
-            View on Storefront
-          </a>
-
-          <a
-            href="#"
-            className="block rounded-lg px-4 py-2 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700"
-            role="menuitem"
-          >
-            View Warehouse Info
-          </a>
-
-          <a
-            href="#"
-            className="block rounded-lg px-4 py-2 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700"
-            role="menuitem"
-          >
-            Duplicate Product
-          </a>
-
-          <a
-            href="#"
-            className="block rounded-lg px-4 py-2 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700"
-            role="menuitem"
-          >
-            Unpublish Product
-          </a>
-
-          <form method="POST" action="#">
-            <button
-              type="submit"
-              className="flex w-full items-center gap-2 rounded-lg px-4 py-2 text-sm text-red-700 hover:bg-red-50"
+          {itemsRef.current.map((item: ItemSortFilterType, index: number) => (
+            <div
+              key={index}
+              className="block cursor-pointer rounded-lg px-4 py-2 text-sm text-gray-500 hover:bg-gray-100 hover:text-gray-700"
               role="menuitem"
+              onClick={() => {
+                handleOnClickItem(item.title);
+              }}
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-4 w-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                />
-              </svg>
-              Delete Product
-            </button>
-          </form>
+              {item.title}
+            </div>
+          ))}
         </div>
       </div>
     </div>
