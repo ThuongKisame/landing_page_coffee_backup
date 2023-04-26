@@ -46,7 +46,7 @@ const Index = () => {
         </header>
 
         <div className="mt-8 flex w-full gap-8">
-          <div className="w-[18rem]">
+          <div className="w-[16rem]">
             <FilterLeftSide />
           </div>
           <div className="w-full grow">
