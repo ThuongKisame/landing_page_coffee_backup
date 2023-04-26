@@ -46,9 +46,12 @@ const Index = () => {
                         {cartItems.map((product: CardItemType, index) => (
                           <tr key={index}>
                             <td className=" px-0 py-2 font-medium text-gray-900 sm:px-4">
-                              <div className="flex-row md:flex">
+                              <Link
+                                href={`/shop/${product.slug}`}
+                                className="flex-row md:flex"
+                              >
                                 <img
-                                  alt=""
+                                  alt="Image product"
                                   src={product.image}
                                   className="h-16 w-16 rounded object-cover"
                                 />
@@ -74,7 +77,7 @@ const Index = () => {
                                     </div>
                                   </dl>
                                 </div>
-                              </div>
+                              </Link>
                             </td>
                             <td className="relative whitespace-nowrap px-0 py-2 text-gray-700 sm:px-4 ">
                               <div>
