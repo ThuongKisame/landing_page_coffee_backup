@@ -6,6 +6,8 @@ import { Router } from 'next/router';
 import NProgress from 'nprogress';
 import { useEffect } from 'react';
 
+import { CartProvider } from '@/contexts/CartContext';
+
 const MyApp = ({ Component, pageProps }: AppProps) => {
   useEffect(() => {
     const start = () => {
@@ -23,7 +25,13 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
       Router.events.off('routeChangeError', end);
     };
   }, []);
-  return <Component {...pageProps} />;
+  return (
+    <>
+      <CartProvider>
+        <Component {...pageProps} />
+      </CartProvider>
+    </>
+  );
 };
 
 export default MyApp;

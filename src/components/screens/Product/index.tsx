@@ -1,8 +1,9 @@
 import { PortableText } from '@portabletext/react';
 import Link from 'next/link';
-import React from 'react';
+import React, { useContext } from 'react';
 import YouTube from 'react-youtube';
 
+import { CartContext } from '@/contexts/CartContext';
 import { urlFor } from '@/libs/sanity';
 import type DetailProductType from '@/types/DetailProductType';
 
@@ -40,18 +41,14 @@ const Index = ({
   discount,
   description,
   categories,
+  slug,
 }: DetailProductType) => {
-  // const { addToCart } = useContext(CartContext);
-
+  const { addToCart } = useContext(CartContext);
   const opts = {
     playerVars: {
       autoplay: 0,
     },
   };
-
-  // const handleAddToCart = (product: DetailProductProps) => {
-  //   addToCart(product);
-  // };
 
   return (
     <>
@@ -123,22 +120,17 @@ const Index = ({
                   <>
                     <button
                       className="w-full rounded bg-[#A47E3B] px-6 py-3 text-sm font-bold uppercase tracking-wide text-white"
-                      // onClick={() =>
-                      //   handleAddToCart({
-                      //     price,
-                      //     name,
-                      //     image,
-                      //     slug,
-                      //     discount,
-                      //     description,
-                      //     status,
-                      //     linkvideo,
-                      //     amount,
-                      //     category,
-                      //     thumbnail,
-                      //     productsByCategories: [],
-                      //   })
-                      // }
+                      onClick={() =>
+                        addToCart({
+                          price,
+                          name,
+                          image: images[0],
+                          discount,
+                          id,
+                          slug,
+                          quantity: 1,
+                        })
+                      }
                     >
                       Thêm vào giỏ hàng
                     </button>
