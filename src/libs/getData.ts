@@ -62,8 +62,12 @@ export const getAllProducts = async ({
 
 }`;
 
-  console.log(query);
-
   const listProducts = await client.fetch(query);
   return listProducts;
+};
+
+export const getAllCategories = async () => {
+  const query = `*[_type == "category"]{title}`;
+  const categories = await client.fetch(query);
+  return categories;
 };

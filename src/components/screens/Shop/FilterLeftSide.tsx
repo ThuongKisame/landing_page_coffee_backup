@@ -1,12 +1,19 @@
 import React, { useEffect, useState } from 'react';
 
+import { getAllCategories } from '@/libs/getData';
+
 const FilterLeftSide = () => {
   const [categories, setCategories] = useState<string[]>([]);
   const [activeCategories, setActiveCategories] = useState<string[]>([]);
 
   useEffect(() => {
     const fetchCategories = async () => {
-      setCategories(['Cà phê', 'Trà', 'Trà đào']);
+      try {
+        const categoriesData = (await getAllCategories()) ?? [];
+        setCategories(categoriesData.map((item: any) => item.title));
+      } catch (error) {
+        console.log(error);
+      }
     };
     fetchCategories();
   }, []);
