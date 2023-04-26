@@ -6,9 +6,10 @@ import type { FilterType } from '.';
 
 interface FilterLeftSideProps {
   setFilter: React.Dispatch<React.SetStateAction<FilterType>>;
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const FilterLeftSide = ({ setFilter }: FilterLeftSideProps) => {
+const FilterLeftSide = ({ setFilter, setCurrentPage }: FilterLeftSideProps) => {
   const [categories, setCategories] = useState<string[]>([]);
   const [activeCategories, setActiveCategories] = useState<string[]>([]);
 
@@ -31,6 +32,7 @@ const FilterLeftSide = ({ setFilter }: FilterLeftSideProps) => {
       setFilter((prev) => {
         return { ...prev, categories: [...activeCategories, item] };
       });
+      setCurrentPage(1);
     } else {
       const newState = JSON.parse(JSON.stringify(activeCategories));
       newState.splice(index, 1);
@@ -38,10 +40,15 @@ const FilterLeftSide = ({ setFilter }: FilterLeftSideProps) => {
       setFilter((prev) => {
         return { ...prev, categories: newState };
       });
+      setCurrentPage(1);
     }
   };
   const clearListActiveCategories = () => {
     setActiveCategories([]);
+    setFilter((prev) => {
+      return { ...prev, categories: [] };
+    });
+    setCurrentPage(1);
   };
   return (
     <div className="w-full space-y-2">

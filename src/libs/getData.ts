@@ -32,6 +32,7 @@ export const getProductByCategories = async ({
   const query = `*[_type == "product" && _id != "${currentId}" && references(*[_type == "category" && title in [${categories.map(
     (item) => `"${item}"`
   )}]]._id)]|order(_id) [0...4]`;
+  console.log('related query', query);
   const products = await client.fetch(query);
   return products;
 };
@@ -45,33 +46,36 @@ export const getAllProducts = async ({
   perPage: number;
   filter: FilterType;
 }) => {
-  console.log('filter', filter);
+  const categoriesFilter =
+    filter.categories.length > 0
+      ? `&& references(*[_type == "category" && title in [${filter.categories.map(
+          (item) => `"${item}"`
+        )}]]._id)`
+      : '';
   const orderFilter =
     filter.orderBy.type && filter.orderBy.order
       ? `order(${filter.orderBy.type} ${filter.orderBy.order})`
       : '';
   const query = `{
-    "items": *[_type == "product"] | ${orderFilter}[${
+      "items": *[_type == "product" ${categoriesFilter}] | ${orderFilter}[${
     currentPage * perPage - perPage
   }...${currentPage * perPage}]{
-      name,
-      slug,
-      mainImage,
-      discount,
-      thumbnailImages[],
-      price,
-      linkVideo,
-      status,
-      categories[]->{
-        title
+        name,
+        slug,
+        mainImage,
+        discount,
+        thumbnailImages[],
+        price,
+        linkVideo,
+        status,
+        categories[]->{
+          title
+        },
+        body
       },
-      body
-    },
-     "total": count(*[_type == "product"]) 
+       "total": count(*[_type == "product" ${categoriesFilter}])
 
-}`;
-
-  console.log('query', query);
+  }`;
 
   const listProducts = await client.fetch(query);
   return listProducts;

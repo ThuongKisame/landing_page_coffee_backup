@@ -34,13 +34,13 @@ const FilterTopSide = ({ setFilter }: FilterTopSideProps) => {
       title: 'Hàng mới nhất',
       key: 'hang-moi-nhat',
       type: '_createdAt',
-      order: 'asc',
+      order: 'desc',
     },
     {
       title: 'Hàng cũ nhất',
       key: 'hang-cu-nhat',
       type: '_createdAt',
-      order: 'desc',
+      order: 'asc',
     },
   ]);
 

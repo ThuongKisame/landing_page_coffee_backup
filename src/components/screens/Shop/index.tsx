@@ -37,14 +37,13 @@ const Index = () => {
     const fetchListProducts = async () => {
       setIsLoading(true);
       try {
-        const data =
-          (await getAllProducts({
-            perPage: perPage.current,
-            currentPage,
-            filter,
-          })) ?? [];
-        setProducts(data?.items);
-        setTotalPage(Math.round((data?.total || 1) / perPage.current));
+        const data = await getAllProducts({
+          perPage: perPage.current,
+          currentPage,
+          filter,
+        });
+        setProducts(data?.items ?? []);
+        setTotalPage(Math.round((data?.total ?? 1) / perPage.current));
       } catch (error) {
         console.log(error);
       }
@@ -65,7 +64,10 @@ const Index = () => {
 
         <div className="mt-8 flex w-full gap-8">
           <div className="w-[20rem]">
-            <FilterLeftSide setFilter={setFilter} />
+            <FilterLeftSide
+              setFilter={setFilter}
+              setCurrentPage={setCurrentPage}
+            />
           </div>
           <div className="w-full grow">
             <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
