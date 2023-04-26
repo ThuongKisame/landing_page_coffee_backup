@@ -5,7 +5,8 @@ import Skeleton from '@/components/common/Skeleton';
 import { getAllProducts } from '@/libs/getData';
 import { urlFor } from '@/libs/sanity';
 
-import Filter from './Filter';
+import FilterLeftSide from './FilterLeftSide';
+import FilterTopSide from './FilterTopSide';
 import Pagination from './Pagination';
 
 const Index = () => {
@@ -41,11 +42,16 @@ const Index = () => {
           <h2 className="text-xl font-bold text-gray-900 sm:text-3xl">
             Cửa hàng
           </h2>
-          <Filter />
+          <FilterTopSide />
         </header>
 
-        <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {/* eslint-disable */}
+        <div className="mt-8 flex w-full gap-8">
+          <div className="w-[18rem]">
+            <FilterLeftSide />
+          </div>
+          <div className="w-full grow">
+            <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {/* eslint-disable */}
 
           {isLoading ? <>{
             Array.from(Array(perPage.current).keys()).map(item=><Skeleton key={item}/>)
@@ -64,14 +70,16 @@ const Index = () => {
             })
           }</>}
           {/* eslint-enable */}
-        </ul>
-        {/* Pagination */}
-        <div className="mt-8 flex w-full justify-center">
-          <Pagination
-            totalPage={totalPage}
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-          />
+            </ul>
+            {/* Pagination */}
+            <div className="mt-8 flex w-full justify-center">
+              <Pagination
+                totalPage={totalPage}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+              />
+            </div>
+          </div>
         </div>
       </div>
     </section>
