@@ -1,24 +1,54 @@
 import React, { useRef, useState } from 'react';
 
+import type { FilterType } from '.';
+
 type ItemSortFilterType = {
   title: string;
   key: string;
-  query: string;
+  type: 'wording' | 'price' | 'createAt';
+  order: 'asc' | 'desc';
 };
 
-const FilterTopSide = () => {
+interface FilterTopSideProps {
+  setFilter: React.Dispatch<React.SetStateAction<FilterType>>;
+}
+
+const FilterTopSide = ({ setFilter }: FilterTopSideProps) => {
   const [activeItem, setActiveItem] = useState<string>('Mặc định');
   const itemsRef = useRef<ItemSortFilterType[]>([
-    { title: 'A -> Z', query: '', key: 'a-z' },
-    { title: 'Z -> A', query: '', key: 'z-a' },
-    { title: 'Giá tăng dần', query: '', key: 'gia-tang-dan' },
-    { title: 'Giá giảm dần', query: '', key: 'gia-giam-dan' },
-    { title: 'Hàng mới nhất', query: '', key: 'hang-moi-nhat' },
-    { title: 'Hàng cũ nhất', query: '', key: 'hang-cu-nhat' },
+    { title: 'A -> Z', key: 'a-z', type: 'wording', order: 'asc' },
+    { title: 'Z -> A', key: 'z-a', type: 'wording', order: 'desc' },
+    {
+      title: 'Giá tăng dần',
+      key: 'gia-tang-dan',
+      type: 'price',
+      order: 'asc',
+    },
+    {
+      title: 'Giá giảm dần',
+      key: 'gia-giam-dan',
+      type: 'price',
+      order: 'desc',
+    },
+    {
+      title: 'Hàng mới nhất',
+      key: 'hang-moi-nhat',
+      type: 'createAt',
+      order: 'asc',
+    },
+    {
+      title: 'Hàng cũ nhất',
+      key: 'hang-cu-nhat',
+      type: 'createAt',
+      order: 'desc',
+    },
   ]);
 
-  const handleOnClickItem = (title: string) => {
-    setActiveItem(title);
+  const handleOnClickItem = (item: ItemSortFilterType) => {
+    setActiveItem(item.title);
+    setFilter((prev) => {
+      return { ...prev, orderBy: { type: item.type, order: item.order } };
+    });
   };
   return (
     <div className="group relative ">
@@ -45,7 +75,7 @@ const FilterTopSide = () => {
       </div>
 
       <div
-        className="invisible absolute end-0 z-20 mt-2 w-56 rounded-md border border-gray-100 bg-white opacity-0 shadow-lg group-hover:visible group-hover:opacity-100"
+        className="invisible absolute end-0 z-20 w-56 rounded-md border border-gray-100 bg-white opacity-0 shadow-lg group-hover:visible group-hover:opacity-100"
         role="menu"
       >
         <div className="p-2">
@@ -55,7 +85,7 @@ const FilterTopSide = () => {
               className="block cursor-pointer rounded-lg px-4 py-2 text-sm text-gray-500 hover:bg-gray-100 hover:text-gray-700"
               role="menuitem"
               onClick={() => {
-                handleOnClickItem(item.title);
+                handleOnClickItem(item);
               }}
             >
               {item.title}

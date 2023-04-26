@@ -2,7 +2,13 @@ import React, { useEffect, useState } from 'react';
 
 import { getAllCategories } from '@/libs/getData';
 
-const FilterLeftSide = () => {
+import type { FilterType } from '.';
+
+interface FilterLeftSideProps {
+  setFilter: React.Dispatch<React.SetStateAction<FilterType>>;
+}
+
+const FilterLeftSide = ({ setFilter }: FilterLeftSideProps) => {
   const [categories, setCategories] = useState<string[]>([]);
   const [activeCategories, setActiveCategories] = useState<string[]>([]);
 
@@ -22,10 +28,16 @@ const FilterLeftSide = () => {
     const index = activeCategories.indexOf(item);
     if (index === -1) {
       setActiveCategories([...activeCategories, item]);
+      setFilter((prev) => {
+        return { ...prev, categories: [...activeCategories, item] };
+      });
     } else {
       const newState = JSON.parse(JSON.stringify(activeCategories));
       newState.splice(index, 1);
       setActiveCategories(newState);
+      setFilter((prev) => {
+        return { ...prev, categories: newState };
+      });
     }
   };
   const clearListActiveCategories = () => {

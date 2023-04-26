@@ -9,22 +9,40 @@ import FilterLeftSide from './FilterLeftSide';
 import FilterTopSide from './FilterTopSide';
 import Pagination from './Pagination';
 
+interface OrderByFilterType {
+  type: string;
+  order: string;
+}
+export interface FilterType {
+  orderBy: OrderByFilterType;
+  categories: string[];
+  search: string;
+}
+
 const Index = () => {
   const [products, setProducts] = useState<any>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [totalPage, setTotalPage] = useState<number>(1);
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [filter, setFilter] = useState<FilterType>({
+    orderBy: { type: '', order: '' },
+    categories: [],
+    search: '',
+  });
   const perPage = useRef<number>(8);
-
-  console.log('products', products);
+  console.log('filter', filter);
+  // console.log('products', products);
 
   useEffect(() => {
     const fetchListProducts = async () => {
       setIsLoading(true);
       try {
         const data =
-          (await getAllProducts({ perPage: perPage.current, currentPage })) ??
-          [];
+          (await getAllProducts({
+            perPage: perPage.current,
+            currentPage,
+            filter,
+          })) ?? [];
         setProducts(data?.items);
         setTotalPage(Math.round((data?.total || 1) / perPage.current));
       } catch (error) {
@@ -42,12 +60,12 @@ const Index = () => {
           <h2 className="text-xl font-bold text-gray-900 sm:text-3xl">
             Cửa hàng
           </h2>
-          <FilterTopSide />
+          <FilterTopSide setFilter={setFilter} />
         </header>
 
         <div className="mt-8 flex w-full gap-8">
           <div className="w-[20rem]">
-            <FilterLeftSide />
+            <FilterLeftSide setFilter={setFilter} />
           </div>
           <div className="w-full grow">
             <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">

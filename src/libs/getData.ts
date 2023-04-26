@@ -1,3 +1,5 @@
+import type { FilterType } from '@/components/screens/Shop';
+
 import { client } from './sanity';
 
 export const getProductBySlug = async (slug: string) => {
@@ -37,10 +39,13 @@ export const getProductByCategories = async ({
 export const getAllProducts = async ({
   currentPage,
   perPage,
+  filter,
 }: {
   currentPage: number;
   perPage: number;
+  filter: FilterType;
 }) => {
+  console.log('filter', filter);
   const query = `{
     "items": *[_type == "product"] | order(_id)[${
       currentPage * perPage - perPage
