@@ -43,7 +43,7 @@ const Index = () => {
           filter,
         });
         setProducts(data?.items ?? []);
-        setTotalPage(Math.round((data?.total ?? 1) / perPage.current));
+        setTotalPage(Math.ceil((data?.total ?? 1) / perPage.current));
       } catch (error) {
         console.log(error);
       }
