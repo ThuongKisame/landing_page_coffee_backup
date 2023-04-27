@@ -1,12 +1,25 @@
 import Link from 'next/link';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import { CartContext } from '@/contexts/CartContext';
+import { getDistrict, getProvince, getWard } from '@/libs/getAddressVietNam';
 import { validatePhoneNumber } from '@/utils/validation';
+
+import Dropdown from './Dropdown';
 
 type InputFiledType = {
   value: string;
   error: string;
+};
+
+export type ItemsAddressType = {
+  name: string;
+  code: number;
+};
+export type InputFiledTypeAddress = {
+  value: ItemsAddressType;
+  error: string;
+  items: ItemsAddressType[];
 };
 
 export default function Index() {
@@ -21,6 +34,71 @@ export default function Index() {
     value: '',
     error: '',
   });
+  const [province, setProvince] = useState<InputFiledTypeAddress>({
+    value: { name: '', code: 0 },
+    error: '',
+    items: [],
+  });
+  const [district, setDistrict] = useState<InputFiledTypeAddress>({
+    value: { name: '', code: 0 },
+    error: '',
+    items: [],
+  });
+  const [ward, setWard] = useState<InputFiledTypeAddress>({
+    value: { name: '', code: 0 },
+    error: '',
+    items: [],
+  });
+
+  // fetch province data
+  useEffect(() => {
+    const getProvinceItems = async () => {
+      const data = await getProvince();
+      console.log(data);
+      if (data)
+        setProvince({
+          ...province,
+          items: data.map((item: any) => {
+            return { name: item?.name, code: item?.code };
+          }),
+        });
+    };
+    if (cartItems.length > 0) getProvinceItems();
+  }, []);
+
+  // fetch district data
+  useEffect(() => {
+    const getDistrictItems = async () => {
+      const data = await getDistrict();
+      if (data)
+        setDistrict({
+          ...district,
+          items: data
+            .filter((item: any) => item.province_code === province.value.code)
+            .map((item: any) => {
+              return { name: item?.name, code: item?.code };
+            }),
+        });
+    };
+    if (cartItems.length > 0 && province.value.code !== 0) getDistrictItems();
+  }, [province.value.code]);
+
+  // fetch ward data
+  useEffect(() => {
+    const getWardItems = async () => {
+      const data = await getWard();
+      if (data)
+        setWard({
+          ...ward,
+          items: data
+            .filter((item: any) => item.district_code === district.value.code)
+            .map((item: any) => {
+              return { name: item?.name, code: item?.code };
+            }),
+        });
+    };
+    if (cartItems.length > 0 && district.value.code !== 0) getWardItems();
+  }, [district.value.code]);
 
   const handleOnChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName({ ...name, value: e.target.value });
@@ -45,6 +123,18 @@ export default function Index() {
       error: '',
     }));
     setAddress((prev) => ({
+      ...prev,
+      error: '',
+    }));
+    setProvince((prev) => ({
+      ...prev,
+      error: '',
+    }));
+    setDistrict((prev) => ({
+      ...prev,
+      error: '',
+    }));
+    setWard((prev) => ({
       ...prev,
       error: '',
     }));
@@ -78,6 +168,27 @@ export default function Index() {
       }));
       isValid = false;
     }
+    if (province.value.name.trim() === '') {
+      setProvince((prev) => ({
+        ...prev,
+        error: 'Vui lòng điền đầy đủ thông tin',
+      }));
+      isValid = false;
+    }
+    if (district.value.name.trim() === '') {
+      setDistrict((prev) => ({
+        ...prev,
+        error: 'Vui lòng điền đầy đủ thông tin',
+      }));
+      isValid = false;
+    }
+    if (ward.value.name.trim() === '') {
+      setWard((prev) => ({
+        ...prev,
+        error: 'Vui lòng điền đầy đủ thông tin',
+      }));
+      isValid = false;
+    }
     return isValid;
   };
 
@@ -86,6 +197,9 @@ export default function Index() {
     const isValidForm = checkForm();
     if (isValidForm) {
       console.log({
+        province: province.value.name,
+        district: district.value.name,
+        ward: ward.value.name,
         name: name.value,
         phoneNumber: phoneNumber.value,
         address: address.value,
@@ -257,8 +371,7 @@ export default function Index() {
                       </p>
                     )}
                   </div>
-
-                  <div className="relative col-span-6">
+                  <div className="relative col-span-6 ">
                     <label
                       htmlFor="Address"
                       className="block text-xs font-medium text-gray-700"
@@ -280,6 +393,34 @@ export default function Index() {
                         {address.error}
                       </p>
                     )}
+                  </div>
+
+                  <div className="relative col-span-6">
+                    <Dropdown
+                      label="Tỉnh/Thành phố"
+                      items={province.items}
+                      error={province.error}
+                      value={province.value}
+                      setValue={setProvince}
+                    />
+                  </div>
+                  <div className="relative col-span-6">
+                    <Dropdown
+                      label="Quận/Huyện"
+                      items={district.items}
+                      error={district.error}
+                      value={district.value}
+                      setValue={setDistrict}
+                    />
+                  </div>
+                  <div className="relative col-span-6">
+                    <Dropdown
+                      label="Xã/Phường/Thị Trấn"
+                      items={ward.items}
+                      error={ward.error}
+                      value={ward.value}
+                      setValue={setWard}
+                    />
                   </div>
 
                   <div className="col-span-6">
