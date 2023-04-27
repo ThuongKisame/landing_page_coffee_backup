@@ -83,7 +83,14 @@ export default function Index() {
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
-    checkForm();
+    const isValidForm = checkForm();
+    if (isValidForm) {
+      console.log({
+        name: name.value,
+        phoneNumber: phoneNumber.value,
+        address: address.value,
+      });
+    }
   };
 
   return (
