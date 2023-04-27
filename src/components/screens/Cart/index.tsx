@@ -192,7 +192,7 @@ const Index = () => {
                 <div className="p-4">
                   <div className="space-y-2 pb-10 pt-2 text-center">
                     <Link
-                      href={`/cart/checkout`}
+                      href="/checkout"
                       className="block rounded border border-gray-600 px-5 py-3 text-sm font-medium text-gray-600 transition hover:border-[#E6B325] hover:text-[#E6B325] hover:ring-1 hover:ring-[#E6B325]"
                     >
                       Đặt hàng

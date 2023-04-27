@@ -1,4 +1,4 @@
-import Checkout from '@/components/screens/Cart/Checkout';
+import Checkout from '@/components/screens/Checkout';
 import { Main } from '@/templates/Main';
 
 const Index = () => {
