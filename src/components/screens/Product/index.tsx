@@ -1,5 +1,5 @@
 import { PortableText } from '@portabletext/react';
-import Link from 'next/link';
+import { useRouter } from 'next/router';
 import React, { useContext } from 'react';
 import YouTube from 'react-youtube';
 
@@ -44,6 +44,7 @@ const Index = ({
   slug,
 }: DetailProductType) => {
   const { addToCart } = useContext(CartContext);
+  const router = useRouter();
   const opts = {
     playerVars: {
       autoplay: 0,
@@ -134,8 +135,22 @@ const Index = ({
                     >
                       Thêm vào giỏ hàng
                     </button>
-                    <button className="w-full rounded border border-gray-300 bg-gray-100 px-6 py-3 text-sm font-bold uppercase tracking-wide">
-                      <Link href={`/cart`}>Thanh toán</Link>
+                    <button
+                      onClick={() => {
+                        addToCart({
+                          price,
+                          name,
+                          image: images[0],
+                          discount,
+                          id,
+                          slug,
+                          quantity: 1,
+                        });
+                        router.push('/checkout');
+                      }}
+                      className="w-full rounded border border-gray-300 bg-gray-100 px-6 py-3 text-sm font-bold uppercase tracking-wide"
+                    >
+                      Thanh toán
                     </button>
                   </>
                 )}

@@ -197,6 +197,7 @@ export default function Index() {
     const isValidForm = checkForm();
     if (isValidForm) {
       console.log({
+        products: cartItems,
         province: province.value.name,
         district: district.value.name,
         ward: ward.value.name,
