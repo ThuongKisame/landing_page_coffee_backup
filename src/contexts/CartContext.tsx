@@ -1,7 +1,10 @@
 import 'react-toastify/dist/ReactToastify.css';
 
-import { createContext, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
+
+import { getProductById } from '@/libs/getData';
+import { urlFor } from '@/libs/sanity';
 
 // import type any from '@/types/any';
 
@@ -42,21 +45,45 @@ type CartProviderProps = {
 export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   const [cartItems, setCartItems] = useState<any[]>([]);
 
-  // Load cart items from localStorage on mount
-  // useEffect(() => {
-  //   const storedCartItems = localStorage.getItem('cartItems');
-  //   if (storedCartItems) {
-  //     setCartItems(JSON.parse(storedCartItems));
-  //   }
-  // }, []);
+  const storeCartItemsIntoLocalStorage = (items: CardItemType[]) => {
+    const data = items.map((item) => {
+      return { id: item.id, quantity: item.quantity };
+    });
+    localStorage.setItem('cartItems', JSON.stringify(data));
+  };
 
-  // // Save cart items to localStorage when the cartItems state changes
-  // useEffect(() => {
-  //   if (hasCartItemsChanged) {
-  //     localStorage.setItem('cartItems', JSON.stringify(cartItems));
-  //     setHasCartItemsChanged(false);
-  //   }
-  // }, [cartItems, hasCartItemsChanged]);
+  // Load cart items from localStorage on mount
+  useEffect(() => {
+    const getCartItemsFromLocal = async () => {
+      const storedCartItems = localStorage.getItem('cartItems');
+      if (storedCartItems) {
+        let items = await Promise.all(
+          JSON.parse(storedCartItems).map((item: any) =>
+            getProductById(item.id)
+          )
+        );
+
+        items = items
+          .map((item, index) => {
+            return {
+              ...item,
+              quantity: JSON.parse(storedCartItems)[index]?.quantity,
+            };
+          })
+          .filter((item) => item.status)
+          .map((item) => {
+            return {
+              ...item,
+              slug: item.slug.current,
+              id: item._id, // eslint-disable-line
+              image: urlFor(item.mainImage.asset._ref).url(), // eslint-disable-line
+            };
+          });
+        setCartItems(items);
+      }
+    };
+    getCartItemsFromLocal();
+  }, []);
 
   // Add a product to the cart
   const addToCart = (product: CardItemType) => {
@@ -68,8 +95,10 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       const newStateProduct = JSON.parse(JSON.stringify(cartItems));
       newStateProduct[index].quantity += 1;
       setCartItems(newStateProduct);
+      storeCartItemsIntoLocalStorage(newStateProduct);
     } else {
       setCartItems([...cartItems, product]);
+      storeCartItemsIntoLocalStorage([...cartItems, product]);
     }
     toast.success('Thêm vào giỏ hàng thành công!');
   };
@@ -83,6 +112,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       newStateProduct.splice(index, 1);
       setCartItems(newStateProduct);
       toast.success('Sản phẩm đã được xóa khỏi giỏ hàng!');
+      storeCartItemsIntoLocalStorage(newStateProduct);
     } else {
       toast.warn('Đã xảy ra lỗi!');
     }
@@ -96,6 +126,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       const newStateProduct = JSON.parse(JSON.stringify(cartItems));
       newStateProduct[index].quantity += 1;
       setCartItems(newStateProduct);
+      storeCartItemsIntoLocalStorage(newStateProduct);
     } else {
       toast.warning('Đã xảy ra lỗi!');
     }
@@ -117,6 +148,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
         newStateProduct.splice(index, 1);
       }
       setCartItems(newStateProduct);
+      storeCartItemsIntoLocalStorage(newStateProduct);
     } else {
       toast.warning('Đã xảy ra lỗi!');
     }

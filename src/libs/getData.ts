@@ -91,3 +91,17 @@ export const getAllCategories = async () => {
   const categories = await client.fetch(query);
   return categories;
 };
+
+export const getProductById = async (id: string) => {
+  const query = `*[_type == "product" && _id == "${id}"]{
+    name,
+    slug,
+    mainImage,
+    discount,
+    price,
+    status,
+    _id
+  }`;
+  const product = await client.fetch(query);
+  return product[0];
+};
