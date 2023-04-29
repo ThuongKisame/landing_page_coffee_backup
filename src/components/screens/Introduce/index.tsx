@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { GrClose } from 'react-icons/gr';
-import YouTube from 'react-youtube';
 
 import Skeleton from '@/components/common/Skeleton';
+import YoutubeEmbed from '@/components/common/YoutubeEmbed';
 import { getAllIntroduce } from '@/libs/getData';
 import type Introduce from '@/types/IntroduceType';
 import { YouTubeGetID } from '@/utils';
@@ -16,12 +16,6 @@ const Index = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [video, setVideo] = useState<string>('');
   const [playing, setPlaying] = React.useState<boolean>(false);
-
-  const opts = {
-    playerVars: {
-      autoplay: 0,
-    },
-  };
 
   const handlePlayVideo = useCallback((linkVideo: string) => {
     setPlaying(true);
@@ -88,7 +82,10 @@ const Index = () => {
           className="fixed left-0  top-0 z-50 flex h-full w-full items-center justify-center "
           style={{ backgroundColor: 'rgba(69, 90, 100, 0.7)' }}
         >
-          <YouTube videoId={video} opts={opts} />
+          <div className="aspect-video h-auto w-[40rem]">
+            <YoutubeEmbed embedId={video} />
+          </div>
+
           <span
             className="absolute right-4 top-4 p-2 hover:cursor-pointer "
             onClick={() => setPlaying(false)}
