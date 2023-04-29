@@ -105,3 +105,15 @@ export const getProductById = async (id: string) => {
   const product = await client.fetch(query);
   return product[0];
 };
+
+export const getAllIntroduce = async () => {
+  const query = `*[_type == "introduct" && status==true] | order(index asc) {
+    title,
+    slogun,
+    description,
+    image,
+    linkVideo
+  }`;
+  const introduces = await client.fetch(query);
+  return introduces;
+};

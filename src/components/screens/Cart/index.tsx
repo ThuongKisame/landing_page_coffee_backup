@@ -114,7 +114,7 @@ const Index = () => {
                                       &minus;
                                     </button>
 
-                                    <span className="grow">
+                                    <span className="flex grow items-center justify-center">
                                       <input
                                         type="number"
                                         id="Quantity"
