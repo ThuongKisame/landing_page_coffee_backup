@@ -1,6 +1,6 @@
 export default interface Introduce {
   title: string;
-  slogun: string;
+  slogan: string;
   description: string;
   image: string;
   linkVideo: string;

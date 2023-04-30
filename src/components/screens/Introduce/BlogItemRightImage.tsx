@@ -35,7 +35,7 @@ export function BlogItemRightImage(props: IntroduceItemProps) {
               {props.item.title}
             </h2>
             <p className="text-2xl font-medium text-gray-600 sm:text-3xl">
-              {props.item.slogun}
+              {props.item.slogan}
             </p>
 
             <p className="mt-4 text-gray-600">{props.item.description}</p>

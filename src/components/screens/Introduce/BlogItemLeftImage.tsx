@@ -29,12 +29,12 @@ export function BlogItemLeftImage(props: IntroduceItemProps) {
       </div>
 
       <div className="p-8 md:p-12 lg:px-16 lg:py-24">
-        <div className="mx-auto max-w-xl text-center ltr:sm:text-left rtl:sm:text-right">
-          <h2 className="text-2xl font-bold  text-[#E6B325] md:text-3xl">
+        <div className="mx-auto max-w-xl  ltr:sm:text-left rtl:sm:text-right">
+          <h2 className="text-3xl font-bold text-[#E6B325] sm:text-4xl">
             {props.item.title}
           </h2>
           <p className="text-2xl font-medium text-gray-600 sm:text-3xl">
-            {props.item.slogun}
+            {props.item.slogan}
           </p>
 
           <p className=" text-gray-500 md:mt-4 md:block">

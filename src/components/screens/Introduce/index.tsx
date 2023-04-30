@@ -1,8 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { GrClose } from 'react-icons/gr';
+import { IoCloseSharp } from 'react-icons/io5';
 import YouTube from 'react-youtube';
 
 import Skeleton from '@/components/common/Skeleton';
+import OutsideAlerter from '@/hooks/useOutsideAlerter';
 import { getAllIntroduce } from '@/libs/getData';
 import type Introduce from '@/types/IntroduceType';
 import { YouTubeGetID } from '@/utils';
@@ -28,6 +29,10 @@ const Index = () => {
     setVideo(linkVideo);
   }, []);
 
+  const handleCloseVideo = () => {
+    setPlaying(false);
+  };
+
   useEffect(() => {
     const fetchListIntroduce = async () => {
       setIsLoading(true);
@@ -37,12 +42,12 @@ const Index = () => {
         /* eslint-disable */
         const introducesConvert = introducesAPI.map((item: any) => ({
           title: item?.title,
-          slogun: item?.slogun,
+          slogan: item?.slogan,
           description: item?.description[0]?.children[0]?.text,
           image: item?.image?.asset?._ref,
           linkVideo: item?.linkVideo && YouTubeGetID(item?.linkVideo),
         }));
-         /* eslint-enable */
+        /* eslint-enable */
         setIntroduce(introducesConvert);
       } catch (error) {
         console.log(error);
@@ -88,12 +93,14 @@ const Index = () => {
           className="fixed left-0  top-0 z-50 flex h-full w-full items-center justify-center "
           style={{ backgroundColor: 'rgba(69, 90, 100, 0.7)' }}
         >
-          <YouTube videoId={video} opts={opts} />
+          <OutsideAlerter action={handleCloseVideo}>
+            <YouTube videoId={video} opts={opts} />
+          </OutsideAlerter>
           <span
-            className="absolute right-4 top-4 p-2 hover:cursor-pointer "
-            onClick={() => setPlaying(false)}
+            className="absolute right-4 top-4 p-2 text-white hover:cursor-pointer"
+            onClick={handleCloseVideo}
           >
-            <GrClose size={32} />
+            <IoCloseSharp size={32} />
           </span>
         </div>
       )}
