@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FaFilter } from 'react-icons/fa';
+import { MdClose } from 'react-icons/md';
 
 import { getAllCategories } from '@/libs/getData';
 
@@ -54,8 +55,8 @@ const FilterLeftSide = ({ setFilter, setCurrentPage }: FilterLeftSideProps) => {
   };
   return (
     <div
-      className={`fixed top-0 z-40 flex duration-300 lg:relative lg:z-0 ${
-        activeMobile ? 'right-0 translate-x-[20rem]' : 'right-0'
+      className={`fixed right-0 top-0 z-40 flex translate-x-[16rem] duration-300 lg:relative lg:z-0 lg:translate-x-0 ${
+        activeMobile && 'translate-x-0'
       }`}
     >
       <button
@@ -63,11 +64,11 @@ const FilterLeftSide = ({ setFilter, setCurrentPage }: FilterLeftSideProps) => {
           setActiveMobile(!activeMobile);
         }}
         type="button"
-        className="mt-40 flex h-10 w-10 items-center justify-center bg-[#E6B325] p-3 text-white lg:hidden"
+        className="mt-40 flex h-10 w-10 items-center justify-center bg-[#E6B325] text-white lg:hidden"
       >
-        <FaFilter />
+        {activeMobile ? <MdClose size={25} /> : <FaFilter />}
       </button>
-      <div className=" h-screen w-[20rem] space-y-2 overflow-y-auto bg-white">
+      <div className=" h-screen w-[16rem] space-y-2 overflow-y-auto bg-white">
         <div className=" rounded border border-gray-300">
           <summary className="flex items-center justify-between gap-2 p-4 text-gray-900 transition">
             <span className="text-sm font-medium"> Thể loại </span>
