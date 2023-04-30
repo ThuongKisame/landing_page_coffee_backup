@@ -1,5 +1,8 @@
+import 'aos/dist/aos.css';
+
+import AOS from 'aos';
 import Link from 'next/link';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 interface ProductProps {
   price: number;
@@ -10,8 +13,18 @@ interface ProductProps {
 }
 
 const Product = ({ price, name, image, discount, slug }: ProductProps) => {
+  useEffect(() => {
+    AOS.init({
+      once: true, // chỉ kích hoạt hiệu ứng một lần
+      offset: 200, // khoảng cách giữa màn hình và phần tử để kích hoạt hiệu ứng
+    });
+  }, []);
+
   return (
-    <li>
+    <li
+      className="product translate-y-full transition duration-1000 ease-in-out"
+      data-aos="fade-up"
+    >
       <Link
         href={`/shop/${slug}`}
         className="group relative block overflow-hidden"

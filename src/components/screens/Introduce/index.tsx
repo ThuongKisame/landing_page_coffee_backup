@@ -1,9 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { IoCloseSharp } from 'react-icons/io5';
-import YouTube from 'react-youtube';
 
 import Skeleton from '@/components/common/Skeleton';
-import OutsideAlerter from '@/hooks/useOutsideAlerter';
 import { getAllIntroduce } from '@/libs/getData';
 import type Introduce from '@/types/IntroduceType';
 import { YouTubeGetID } from '@/utils';
@@ -11,6 +8,7 @@ import { YouTubeGetID } from '@/utils';
 import { BlogItemHeader } from './BlogItemHeader';
 import { BlogItemLeftImage } from './BlogItemLeftImage';
 import { BlogItemRightImage } from './BlogItemRightImage';
+import ContainerVideo from './ContainerVideo';
 
 const Index = () => {
   const [introduces, setIntroduce] = useState<[Introduce]>();
@@ -18,20 +16,15 @@ const Index = () => {
   const [video, setVideo] = useState<string>('');
   const [playing, setPlaying] = React.useState<boolean>(false);
 
-  const opts = {
-    playerVars: {
-      autoplay: 0,
-    },
-  };
-
   const handlePlayVideo = useCallback((linkVideo: string) => {
     setPlaying(true);
     setVideo(linkVideo);
   }, []);
 
-  const handleCloseVideo = () => {
+  const handleCloseVideo = useCallback((): {} => {
     setPlaying(false);
-  };
+    return {};
+  }, []);
 
   useEffect(() => {
     const fetchListIntroduce = async () => {
@@ -60,7 +53,7 @@ const Index = () => {
   return isLoading ? (
     <>{<Skeleton />}</>
   ) : (
-    <>
+    <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
       {introduces?.map((item: Introduce, index: number) => {
         if (index === 0) {
           return (
@@ -89,22 +82,9 @@ const Index = () => {
         );
       })}
       {playing && video && (
-        <div
-          className="fixed left-0  top-0 z-50 flex h-full w-full items-center justify-center "
-          style={{ backgroundColor: 'rgba(69, 90, 100, 0.7)' }}
-        >
-          <OutsideAlerter action={handleCloseVideo}>
-            <YouTube videoId={video} opts={opts} />
-          </OutsideAlerter>
-          <span
-            className="absolute right-4 top-4 p-2 text-white hover:cursor-pointer"
-            onClick={handleCloseVideo}
-          >
-            <IoCloseSharp size={32} />
-          </span>
-        </div>
+        <ContainerVideo handleCloseVideo={handleCloseVideo} video={video} />
       )}
-    </>
+    </div>
   );
 };
 

@@ -74,6 +74,20 @@ const Index = () => {
                 );
               }
             )}
+            <Link
+              className="block rounded-xl border border-gray-100 p-4 shadow-sm hover:border-gray-200 hover:ring-1 hover:ring-gray-200 focus:outline-none focus:ring"
+              href={`mailto:${contactContext.gmail}`}
+            >
+              <span className="inline-block rounded-lg bg-gray-50 p-3">
+                <IoIosMail className="text-blue-700" />
+              </span>
+
+              <h2 className="mt-2 font-bold">Email</h2>
+
+              <p className="hidden sm:mt-1 sm:block sm:text-sm sm:text-gray-600">
+                {contactContext.gmail}
+              </p>
+            </Link>
           </div>
         </div>
       </div>
@@ -116,15 +130,6 @@ const Index = () => {
               </div>
             );
           })}
-        </div>
-      </div>
-
-      <div className="h-[60px]">
-        <div className="mx-auto flex h-full max-w-screen-xl items-center px-4 sm:px-6 lg:px-8">
-          <IoIosMail size={26} />
-          <Link className="ml-1" href={`mailto:${contactContext.gmail}`}>
-            {contactContext.gmail}
-          </Link>
         </div>
       </div>
     </section>
