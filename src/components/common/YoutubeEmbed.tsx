@@ -2,7 +2,7 @@ import React from 'react';
 
 const YoutubeEmbed = ({ embedId }: { embedId: string }) => {
   return (
-    <div className="relative h-full w-full overflow-hidden rounded-md bg-gray-300">
+    <div className="relative aspect-video h-auto w-[40rem] overflow-hidden rounded-md bg-gray-300">
       <iframe
         className="h-full w-full"
         src={`https://www.youtube.com/embed/${embedId}`}

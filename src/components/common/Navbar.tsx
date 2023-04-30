@@ -41,7 +41,7 @@ const Navbar = () => {
   return (
     <header
       aria-label="Site Header"
-      className="fixed top-0 z-40 w-full border-b-2 bg-white"
+      className="fixed top-0 z-30 w-full border-b-2 bg-white"
     >
       <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">

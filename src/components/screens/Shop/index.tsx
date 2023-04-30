@@ -82,12 +82,10 @@ const Index = () => {
         </header>
 
         <div className="mt-8 flex w-full gap-8">
-          <div className="w-[20rem]">
-            <FilterLeftSide
-              setFilter={setFilter}
-              setCurrentPage={setCurrentPage}
-            />
-          </div>
+          <FilterLeftSide
+            setFilter={setFilter}
+            setCurrentPage={setCurrentPage}
+          />
           <div className="w-full grow">
             {!isLoading && products.length === 0 && (
               <p>Không tìm thấy sản phẩm.</p>

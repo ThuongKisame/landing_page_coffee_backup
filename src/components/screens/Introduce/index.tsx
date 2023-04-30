@@ -82,9 +82,7 @@ const Index = () => {
           className="fixed left-0  top-0 z-50 flex h-full w-full items-center justify-center "
           style={{ backgroundColor: 'rgba(69, 90, 100, 0.7)' }}
         >
-          <div className="aspect-video h-auto w-[40rem]">
-            <YoutubeEmbed embedId={video} />
-          </div>
+          <YoutubeEmbed embedId={video} />
 
           <span
             className="absolute right-4 top-4 p-2 hover:cursor-pointer "
