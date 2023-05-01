@@ -12,7 +12,7 @@ const HotDeal = ({ products }: any) => {
             Hot Deal trong tuần
           </h2>
 
-          <p className="mx-auto mt-4 max-w-md text-gray-500">
+          <p className="mx-auto mt-4 max-w-md text-lg text-gray-500">
             Nhận ngay ưu đãi giảm giá sập sàn vào mỗi tuần
           </p>
         </header>

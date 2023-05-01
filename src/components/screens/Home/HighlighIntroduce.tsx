@@ -39,11 +39,11 @@ function HighlighIntroduce({ introduces }: any) {
       </div>
       <header className="pt-24  text-center">
         <h2 className="text-xl font-bold text-gray-900 sm:text-3xl">
-          Hiểu hơn về MrgoCoffee
+          Đôi nét về MrgoCoffee
         </h2>
 
-        <p className="mx-auto mt-4 max-w-lg pb-8 text-gray-500">
-          MrgoCoffee - Chuyên cung cấp cà phê rang xay chất lượng và thơm ngon
+        <p className="mx-auto mt-4 max-w-lg pb-8 text-lg text-gray-500">
+          Hiểu hơn về sản phẩm và thương hiệu của MrgoCoffee
         </p>
       </header>
       {introduce?.map((item: Introduce, index: number) => {
