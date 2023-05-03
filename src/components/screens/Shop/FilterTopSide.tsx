@@ -53,7 +53,7 @@ const FilterTopSide = ({ setFilter }: FilterTopSideProps) => {
   return (
     <div className="group relative ">
       <div className="inline-flex items-center overflow-hidden rounded-md border bg-white">
-        <div className="cursor-default border-e px-4 py-2 text-sm/none text-gray-600 hover:bg-gray-50 hover:text-gray-700">
+        <div className="cursor-default whitespace-nowrap border-e px-4 py-2 text-sm/none text-gray-600 hover:bg-gray-50 hover:text-gray-700">
           Sắp xếp: <span>{activeItem}</span>
         </div>
 

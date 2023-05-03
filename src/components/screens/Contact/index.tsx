@@ -39,7 +39,7 @@ const Index = () => {
                 return (
                   item.status && (
                     <Link
-                      className="block rounded-xl border border-gray-100 p-4 shadow-sm hover:border-gray-200 hover:ring-1 hover:ring-gray-200 focus:outline-none focus:ring"
+                      className="flex flex-col items-center rounded-xl border border-gray-200 p-4 shadow-sm ring-1 ring-gray-200 hover:border-gray-200 hover:ring-2 hover:ring-gray-200 focus:outline-none focus:ring lg:items-start"
                       href={item.link}
                       key={index}
                     >
@@ -75,7 +75,7 @@ const Index = () => {
               }
             )}
             <Link
-              className="block rounded-xl border border-gray-100 p-4 shadow-sm hover:border-gray-200 hover:ring-1 hover:ring-gray-200 focus:outline-none focus:ring"
+              className="flex flex-col items-center rounded-xl border border-gray-100 p-4 shadow-sm ring-1 ring-gray-200 hover:border-gray-200 hover:ring-2 hover:ring-gray-200 focus:outline-none focus:ring lg:items-start"
               href={`mailto:${contactContext.gmail}`}
             >
               <span className="inline-block rounded-lg bg-gray-50 p-3">
