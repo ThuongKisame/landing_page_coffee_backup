@@ -109,11 +109,29 @@ export const getProductById = async (id: string) => {
 export const getAllIntroduce = async () => {
   const query = `*[_type == "introduct" && status==true] | order(index asc) {
     title,
-    slogun,
+    slogan,
     description,
     image,
     linkVideo
   }`;
   const introduces = await client.fetch(query);
   return introduces;
+};
+
+export const getAllIntroduceHomePage = async () => {
+  const query = `*[_type == "introduct" && status==true && highlight==true] | order(index asc) {
+    title,
+    slogan,
+    description,
+    image,
+    linkVideo
+  }`;
+  const introduces = await client.fetch(query);
+  return introduces;
+};
+
+export const getContacts = async () => {
+  const query = `*[_type == "contact"]`;
+  const contacts = await client.fetch(query);
+  return contacts;
 };

@@ -1,5 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
+
+
 import { GrClose } from 'react-icons/gr';
+
 
 import Skeleton from '@/components/common/Skeleton';
 import YoutubeEmbed from '@/components/common/YoutubeEmbed';
@@ -10,6 +13,7 @@ import { YouTubeGetID } from '@/utils';
 import { BlogItemHeader } from './BlogItemHeader';
 import { BlogItemLeftImage } from './BlogItemLeftImage';
 import { BlogItemRightImage } from './BlogItemRightImage';
+import ContainerVideo from './ContainerVideo';
 
 const Index = () => {
   const [introduces, setIntroduce] = useState<[Introduce]>();
@@ -22,6 +26,11 @@ const Index = () => {
     setVideo(linkVideo);
   }, []);
 
+  const handleCloseVideo = useCallback((): {} => {
+    setPlaying(false);
+    return {};
+  }, []);
+
   useEffect(() => {
     const fetchListIntroduce = async () => {
       setIsLoading(true);
@@ -31,12 +40,12 @@ const Index = () => {
         /* eslint-disable */
         const introducesConvert = introducesAPI.map((item: any) => ({
           title: item?.title,
-          slogun: item?.slogun,
+          slogan: item?.slogan,
           description: item?.description[0]?.children[0]?.text,
           image: item?.image?.asset?._ref,
           linkVideo: item?.linkVideo && YouTubeGetID(item?.linkVideo),
         }));
-         /* eslint-enable */
+        /* eslint-enable */
         setIntroduce(introducesConvert);
       } catch (error) {
         console.log(error);
@@ -49,7 +58,7 @@ const Index = () => {
   return isLoading ? (
     <>{<Skeleton />}</>
   ) : (
-    <>
+    <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
       {introduces?.map((item: Introduce, index: number) => {
         if (index === 0) {
           return (
@@ -78,6 +87,9 @@ const Index = () => {
         );
       })}
       {playing && video && (
+
+        <ContainerVideo handleCloseVideo={handleCloseVideo} video={video} />
+
         <div
           className="fixed left-0  top-0 z-50 flex h-full w-full items-center justify-center "
           style={{ backgroundColor: 'rgba(69, 90, 100, 0.7)' }}
@@ -91,8 +103,9 @@ const Index = () => {
             <GrClose size={32} />
           </span>
         </div>
+
       )}
-    </>
+    </div>
   );
 };
 

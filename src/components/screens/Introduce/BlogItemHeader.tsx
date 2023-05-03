@@ -37,12 +37,12 @@ export function BlogItemHeader(props: IntroduceItemProps) {
             <span className="hidden lg:absolute lg:inset-y-0 lg:-left-16 lg:block lg:w-16 lg:bg-gray-100"></span>
 
             <div className="p-8 sm:p-16 lg:p-24">
-              <h2 className="text-2xl font-bold sm:text-3xl">
+              <h2 className="text-3xl font-bold text-[#E6B325] sm:text-4xl">
                 {props.item.title}
               </h2>
-              <h3 className="text-2xl font-bold sm:text-3xl">
-                {props.item.slogun}
-              </h3>
+              <p className="text-2xl font-medium text-gray-600 sm:text-3xl">
+                {props.item.slogan}
+              </p>
 
               <p className="mt-4 text-gray-600">{props.item.description}</p>
 

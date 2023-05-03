@@ -7,6 +7,7 @@ import NProgress from 'nprogress';
 import { useEffect } from 'react';
 
 import { CartProvider } from '@/contexts/CartContext';
+import { ContactProvider } from '@/contexts/ContactContext';
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   useEffect(() => {
@@ -27,9 +28,11 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   }, []);
   return (
     <>
-      <CartProvider>
-        <Component {...pageProps} />
-      </CartProvider>
+      <ContactProvider>
+        <CartProvider>
+          <Component {...pageProps} />
+        </CartProvider>
+      </ContactProvider>
     </>
   );
 };
