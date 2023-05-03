@@ -1,8 +1,8 @@
 import { PortableText } from '@portabletext/react';
 import { useRouter } from 'next/router';
 import React, { useContext } from 'react';
-import YouTube from 'react-youtube';
 
+import YoutubeEmbed from '@/components/common/YoutubeEmbed';
 import { CartContext } from '@/contexts/CartContext';
 import { urlFor } from '@/libs/sanity';
 import type DetailProductType from '@/types/DetailProductType';
@@ -45,11 +45,6 @@ const Index = ({
 }: DetailProductType) => {
   const { addToCart } = useContext(CartContext);
   const router = useRouter();
-  const opts = {
-    playerVars: {
-      autoplay: 0,
-    },
-  };
 
   return (
     <>
@@ -169,7 +164,7 @@ const Index = ({
                   Video đánh giá sản phẩm
                 </legend>
                 <div className="prose max-w-none">
-                  <YouTube videoId={linkVideo} opts={opts} />
+                  <YoutubeEmbed embedId={linkVideo} />
                 </div>
               </div>
             )}
