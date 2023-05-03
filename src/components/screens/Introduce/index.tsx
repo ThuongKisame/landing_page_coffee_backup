@@ -1,11 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
-
-import { GrClose } from 'react-icons/gr';
-
-
 import Skeleton from '@/components/common/Skeleton';
-import YoutubeEmbed from '@/components/common/YoutubeEmbed';
 import { getAllIntroduce } from '@/libs/getData';
 import type Introduce from '@/types/IntroduceType';
 import { YouTubeGetID } from '@/utils';
@@ -87,23 +82,7 @@ const Index = () => {
         );
       })}
       {playing && video && (
-
         <ContainerVideo handleCloseVideo={handleCloseVideo} video={video} />
-
-        <div
-          className="fixed left-0  top-0 z-50 flex h-full w-full items-center justify-center "
-          style={{ backgroundColor: 'rgba(69, 90, 100, 0.7)' }}
-        >
-          <YoutubeEmbed embedId={video} />
-
-          <span
-            className="absolute right-4 top-4 p-2 hover:cursor-pointer "
-            onClick={() => setPlaying(false)}
-          >
-            <GrClose size={32} />
-          </span>
-        </div>
-
       )}
     </div>
   );

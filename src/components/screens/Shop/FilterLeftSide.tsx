@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 import { FaFilter } from 'react-icons/fa';
 import { MdClose } from 'react-icons/md';
@@ -55,9 +56,10 @@ const FilterLeftSide = ({ setFilter, setCurrentPage }: FilterLeftSideProps) => {
   };
   return (
     <div
-      className={`fixed right-0 top-0 z-40 flex translate-x-[16rem] duration-300 lg:relative lg:z-0 lg:translate-x-0 ${
-        activeMobile && 'translate-x-0'
-      }`}
+      className={classNames(
+        'fixed right-0 top-0 z-40 flex duration-300 lg:relative lg:z-0 lg:translate-x-0',
+        activeMobile ? 'translate-x-0' : 'translate-x-[16rem]'
+      )}
     >
       <button
         onClick={() => {
