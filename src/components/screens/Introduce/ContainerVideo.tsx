@@ -18,12 +18,14 @@ export default function App(props: IAppProps) {
       <OutsideAlerter action={props.handleCloseVideo}>
         <YoutubeEmbed embedId={props.video} />
       </OutsideAlerter>
-      <span
-        className="absolute right-4 top-4 p-2 text-white hover:cursor-pointer"
-        onClick={props.handleCloseVideo}
-      >
-        <IoCloseSharp size={32} />
-      </span>
+      <div className="absolute right-0 top-0 h-11 w-11 rounded-bl-[40px] bg-gray-900 md:right-4 md:top-4">
+        <span
+          className="absolute right-0 top-0 p-1 text-white hover:cursor-pointer"
+          onClick={props.handleCloseVideo}
+        >
+          <IoCloseSharp size={28} />
+        </span>
+      </div>
     </div>
   );
 }
