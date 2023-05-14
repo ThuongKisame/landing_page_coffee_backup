@@ -1,7 +1,8 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { useContext, useRef } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { AiFillInstagram } from 'react-icons/ai';
+import { BsArrowUpCircle, BsFillTelephoneFill } from 'react-icons/bs';
 import { FaFacebookSquare, FaTiktok } from 'react-icons/fa';
 import { IoIosMail } from 'react-icons/io';
 import { IoLogoTwitter, IoLogoYoutube } from 'react-icons/io5';
@@ -15,6 +16,21 @@ import { AppConfig } from '@/utils/AppConfig';
 const Footer = () => {
   const navRef = useRef(navBar);
   const contactContext = useContext(ContactContext);
+
+  const [showScrollToTopButton, setShowScrollToTopButton] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > window.innerHeight) {
+        setShowScrollToTopButton(true);
+      } else {
+        setShowScrollToTopButton(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
     <footer
@@ -99,6 +115,35 @@ const Footer = () => {
         © Copyright {new Date().getFullYear()} {AppConfig.title}. Made with{' '}
         <a href="https://www.facebook.com/minhkhuy76/">Minh Khuy</a> and{' '}
         <a href="https://www.facebook.com/thuong.nhat.319">Nhật Thương</a>
+      </div>
+      {/* zalo */}
+      <div className="fixed bottom-4 right-4 z-[999999999999999] md:bottom-8 md:right-8">
+        {showScrollToTopButton && (
+          <div
+            className="z-[999999999999999] mb-2 flex h-12 w-12 animate-bounce justify-center text-[#E6B325]"
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          >
+            <BsArrowUpCircle size={40} />
+          </div>
+        )}
+
+        <Link href={`tel:${contactContext.phoneNumber}`}>
+          <div className="mb-2 flex h-12 w-12 animate-wiggle items-center justify-center rounded-full bg-green-600 text-white shadow ">
+            <span className="absolute inline-flex h-2/3 w-2/3 animate-ping rounded-full bg-sky-400 opacity-75"></span>
+            <BsFillTelephoneFill size={20} />
+          </div>
+        </Link>
+        {contactContext.listSocial?.map((item: SocialLink, index: number) => {
+          return (
+            'zalo'.includes(item.name?.toLowerCase()) && (
+              <Link href={item.link} key={index}>
+                <div className=" flex  h-12 w-12 items-center justify-center rounded-full bg-blue-600 text-white shadow after:absolute after:bottom-3 after:left-[-6px] after:h-0 after:w-0  after:rotate-[80deg] after:border-x-[14px] after:border-y-8 after:border-y-transparent after:border-l-transparent after:border-r-blue-600 after:content-['']">
+                  <SiZalo size={32} />
+                </div>
+              </Link>
+            )
+          );
+        })}
       </div>
     </footer>
   );
