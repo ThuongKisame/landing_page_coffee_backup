@@ -1,5 +1,8 @@
+import emailjs from '@emailjs/browser';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 
 import { CartContext } from '@/contexts/CartContext';
 import { getDistrict, getProvince, getWard } from '@/libs/getAddressVietNam';
@@ -24,6 +27,7 @@ export type InputFiledTypeAddress = {
 
 export default function Index() {
   const { cartItems, totalMoney } = useContext(CartContext);
+  const router = useRouter();
 
   const [name, setName] = useState<InputFiledType>({ value: '', error: '' });
   const [phoneNumber, setPhoneNumber] = useState<InputFiledType>({
@@ -54,7 +58,6 @@ export default function Index() {
   useEffect(() => {
     const getProvinceItems = async () => {
       const data = await getProvince();
-      console.log(data);
       if (data)
         setProvince({
           ...province,
@@ -64,7 +67,7 @@ export default function Index() {
         });
     };
     if (cartItems.length > 0) getProvinceItems();
-  }, []);
+  }, [cartItems]);
 
   // fetch district data
   useEffect(() => {
@@ -196,15 +199,62 @@ export default function Index() {
     e.preventDefault();
     const isValidForm = checkForm();
     if (isValidForm) {
-      console.log({
-        products: cartItems,
-        province: province.value.name,
-        district: district.value.name,
-        ward: ward.value.name,
-        name: name.value,
-        phoneNumber: phoneNumber.value,
-        address: address.value,
-      });
+      // console.log({
+      //   products: cartItems,
+      //   province: province.value.name,
+      //   district: district.value.name,
+      //   ward: ward.value.name,
+      //   name: name.value,
+      //   phoneNumber: phoneNumber.value,
+      //   address: address.value,
+      // });
+
+      const productFormatHTML = `${cartItems.map(
+        (item) =>
+          `<img src="${item.image}" alt="product" style="width:100px"><br>${
+            item.name
+          }<br>Giá gốc: ${new Intl.NumberFormat('vi-VN', {
+            style: 'currency',
+            currency: 'VND',
+          }).format(item.price)}<br>Khuyễn mãi: ${
+            item.discount
+          }%<br>Số lượng: ${item.quantity}
+          
+          <br>Giá sau khuyến mãi: ${new Intl.NumberFormat('vi-VN', {
+            style: 'currency',
+            currency: 'VND',
+          }).format(
+            (item.price - (item.price * item.discount) / 100) * item.quantity
+          )}<br><br>`
+      )}<strong>Tổng tiền: ${new Intl.NumberFormat('vi-VN', {
+        style: 'currency',
+        currency: 'VND',
+      }).format(totalMoney)}</strong>`;
+
+      const addressFormat = `Tên người mua: ${name.value}<br> Số điện thoại: ${phoneNumber.value}<br> Địa chỉ: ${address.value}<br> Xã/Phường/Thị Trấn: ${ward.value.name} <br> Quận/Huyện: ${district.value.name} <br> Tỉnh/Thành phố: ${province.value.name}`;
+
+      emailjs
+        .send(
+          process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID as string,
+          process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID as string,
+          {
+            from_name: 'Website Coffee Mr.Go',
+            my_html: `${addressFormat} <hr> ${productFormatHTML} `,
+            message: '',
+            email_id: 'websiteMrGo@gmail.com',
+          },
+          process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY as string
+        )
+        .then(
+          () => {
+            toast.success('Đặt hàng thành công!');
+            router.push('/');
+          },
+          (error: any) => {
+            console.error(error);
+            toast.error('Đã có lỗi xảy ra. Vui lòng thử lại!');
+          }
+        );
     }
   };
 
