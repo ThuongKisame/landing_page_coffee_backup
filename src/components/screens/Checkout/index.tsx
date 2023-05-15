@@ -231,7 +231,9 @@ export default function Index() {
         currency: 'VND',
       }).format(totalMoney)}</strong>`;
 
-      const addressFormat = `Tên người mua: ${name.value}<br> Số điện thoại: ${phoneNumber.value}<br> Địa chỉ: ${address.value}<br> Xã/Phường/Thị Trấn: ${ward.value.name} <br> Quận/Huyện: ${district.value.name} <br> Tỉnh/Thành phố: ${province.value.name}`;
+      const date = new Date();
+
+      const addressFormat = `<br>Tên người mua: ${name.value}<br> Số điện thoại: ${phoneNumber.value}<br> Địa chỉ: ${address.value}<br> Xã/Phường/Thị Trấn: ${ward.value.name} <br> Quận/Huyện: ${district.value.name} <br> Tỉnh/Thành phố: ${province.value.name} <br> Vào lúc: ${date} `;
 
       emailjs
         .send(
@@ -239,6 +241,7 @@ export default function Index() {
           process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID as string,
           {
             from_name: 'Website Coffee Mr.Go',
+            html: true,
             my_html: `${addressFormat} <hr> ${productFormatHTML} `,
             message: '',
             email_id: 'websiteMrGo@gmail.com',
