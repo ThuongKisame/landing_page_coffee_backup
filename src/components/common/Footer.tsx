@@ -11,7 +11,6 @@ import { SiZalo } from 'react-icons/si';
 import type { SocialLink } from '@/contexts/ContactContext';
 import { ContactContext } from '@/contexts/ContactContext';
 import { navBar } from '@/masterdata/common';
-import { AppConfig } from '@/utils/AppConfig';
 
 const Footer = () => {
   const navRef = useRef(navBar);
@@ -49,7 +48,7 @@ const Footer = () => {
           </Link>
         </div>
 
-        <p className="mx-auto mt-4 max-w-md text-center leading-relaxed text-gray-400">
+        <p className="mx-auto mt-4 max-w-md text-center leading-relaxed text-white">
           Hân hạnh được phục vụ quý khách !
         </p>
 
@@ -111,11 +110,11 @@ const Footer = () => {
           </Link>
         </ul>
       </div>
-      <div className="border-t border-gray-300 py-6 text-center text-sm">
+      {/* <div className="border-t border-gray-300 py-6 text-center text-sm">
         © Copyright {new Date().getFullYear()} {AppConfig.title}. Made with{' '}
         <a href="https://www.facebook.com/minhkhuy76/">Minh Khuy</a> and{' '}
         <a href="https://www.facebook.com/thuong.nhat.319">Nhật Thương</a>
-      </div>
+      </div> */}
       {/* zalo */}
       <div className="fixed bottom-4 right-4 z-[999999999999999] md:bottom-8 md:right-8">
         {showScrollToTopButton && (

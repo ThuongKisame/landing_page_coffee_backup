@@ -1,4 +1,7 @@
+import 'moment/locale/vi'; // Import Vietnamese locale
+
 import emailjs from '@emailjs/browser';
+import moment from 'moment';
 import Link from 'next/link';
 import { useContext, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
@@ -231,7 +234,7 @@ export default function Index() {
         currency: 'VND',
       }).format(totalMoney)}</strong>`;
 
-      const date = new Date();
+      const date = moment().locale('vi').format('LLL');
 
       const addressFormat = `<br>Tên người mua: ${name.value}<br> Số điện thoại: ${phoneNumber.value}<br> Địa chỉ: ${address.value}<br> Xã/Phường/Thị Trấn: ${ward.value.name} <br> Quận/Huyện: ${district.value.name} <br> Tỉnh/Thành phố: ${province.value.name} <br> Vào lúc: ${date} `;
 

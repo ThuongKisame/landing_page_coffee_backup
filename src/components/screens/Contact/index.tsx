@@ -95,7 +95,7 @@ const Index = () => {
       <div className="mt-24 border-t-2 border-[#f3f3f3] bg-[#F3F4F6]">
         <div className="mx-auto flex h-full max-w-screen-xl flex-col items-center px-4 py-16 sm:px-6 lg:px-8">
           <h2 className="text-xl font-bold uppercase text-[#e6b325]">
-            Hệ thống cửa hàng
+            Địa chỉ cửa hàng
           </h2>
 
           {contactContext.listAddress?.map((item: Address, index: number) => {
