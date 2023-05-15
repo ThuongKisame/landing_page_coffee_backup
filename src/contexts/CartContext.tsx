@@ -24,6 +24,7 @@ type CartContextType = {
   removeItem: (id: string) => void;
   increaseItemAmount: (id: string) => void;
   decreaseItemAmount: (id: string) => void;
+  clearCart: () => void;
   totalMoney: number;
   totalQuantity: number;
 };
@@ -34,6 +35,7 @@ export const CartContext = createContext<CartContextType>({
   removeItem: () => {},
   increaseItemAmount: () => {},
   decreaseItemAmount: () => {},
+  clearCart: () => {},
   totalMoney: 0,
   totalQuantity: 0,
 });
@@ -154,6 +156,11 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     }
   };
 
+  const clearCart = () => {
+    setCartItems([]);
+    storeCartItemsIntoLocalStorage([]);
+  };
+
   // caculate total money from the cart
   const calculateTotalMoney = (): number => {
     return cartItems.reduce((total, item) => {
@@ -170,6 +177,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     removeItem,
     increaseItemAmount,
     decreaseItemAmount,
+    clearCart,
     totalMoney: calculateTotalMoney(),
     totalQuantity: getTotalQuantity(),
   };

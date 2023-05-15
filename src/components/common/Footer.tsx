@@ -120,7 +120,7 @@ const Footer = () => {
       <div className="fixed bottom-4 right-4 z-[999999999999999] md:bottom-8 md:right-8">
         {showScrollToTopButton && (
           <div
-            className="z-[999999999999999] mb-2 flex h-12 w-12 animate-bounce justify-center text-[#E6B325]"
+            className="z-[999999999999999] mb-2 flex h-12 w-12 animate-bounce cursor-pointer justify-center text-[#E6B325]"
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           >
             <BsArrowUpCircle size={40} />
