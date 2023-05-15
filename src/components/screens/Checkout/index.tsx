@@ -1,9 +1,9 @@
 import emailjs from '@emailjs/browser';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
+import Popup from '@/components/common/Popup';
 import { CartContext } from '@/contexts/CartContext';
 import { getDistrict, getProvince, getWard } from '@/libs/getAddressVietNam';
 import { validatePhoneNumber } from '@/utils/validation';
@@ -26,8 +26,8 @@ export type InputFiledTypeAddress = {
 };
 
 export default function Index() {
-  const { cartItems, totalMoney } = useContext(CartContext);
-  const router = useRouter();
+  const { cartItems, totalMoney, clearCart } = useContext(CartContext);
+  const [isOrderDone, setIsOrderDone] = useState(false);
 
   const [name, setName] = useState<InputFiledType>({ value: '', error: '' });
   const [phoneNumber, setPhoneNumber] = useState<InputFiledType>({
@@ -247,8 +247,8 @@ export default function Index() {
         )
         .then(
           () => {
-            toast.success('Đặt hàng thành công!');
-            router.push('/');
+            clearCart();
+            setIsOrderDone(true);
           },
           (error: any) => {
             console.error(error);
@@ -260,6 +260,14 @@ export default function Index() {
 
   return (
     <>
+      {isOrderDone && (
+        <Popup
+          title="Đặt hàng thành công!"
+          text="Coffee Mr.GO cám ơn bạn đã đặt hàng của shop. Chúng tôi sẽ liên hệ để xác nhận thông tin. Xin cám ơn!!!"
+          link="/shop"
+          btnText="Tiếp tục mua sản phẩm"
+        />
+      )}
       {cartItems.length === 0 && (
         <div className="grid h-[calc(100vh-4rem)] place-content-center bg-white px-4">
           <div className="text-center">
