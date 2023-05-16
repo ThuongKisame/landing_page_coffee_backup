@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import DetailProduct from '@/components/screens/Product';
 import { getProductBySlug } from '@/libs/getData';
 import { urlFor } from '@/libs/sanity';
-import { Main } from '@/templates/Main';
+import { ProductSEO } from '@/templates/ProductSEO';
 import type DetailProductType from '@/types/DetailProductType';
 import { YouTubeGetID } from '@/utils';
 
@@ -50,7 +50,7 @@ const Index = ({ product }: any) => {
   }, [product]);
 
   return (
-    <Main>
+    <ProductSEO product={data}>
       {/* eslint-disable */}
       <DetailProduct
         id={data.id}
@@ -64,7 +64,7 @@ const Index = ({ product }: any) => {
         description={data.description}
         categories={data.categories}
       />
-    </Main>
+    </ProductSEO>
   );
 };
 
