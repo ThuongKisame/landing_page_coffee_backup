@@ -135,3 +135,9 @@ export const getContacts = async () => {
   const contacts = await client.fetch(query);
   return contacts;
 };
+
+export const getActive = async () => {
+  const query = `*[_type == "active"]`;
+  const active = await client.fetch(query);
+  return active[0];
+};

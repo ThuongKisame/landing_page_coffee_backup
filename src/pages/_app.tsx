@@ -4,12 +4,27 @@ import 'nprogress/nprogress.css';
 import type { AppProps } from 'next/app';
 import { Router } from 'next/router';
 import NProgress from 'nprogress';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
+import Maintenance from '@/components/common/Maintenance';
 import { CartProvider } from '@/contexts/CartContext';
 import { ContactProvider } from '@/contexts/ContactContext';
+import { getActive } from '@/libs/getData';
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
+  const [isActive, setIsActive] = useState<boolean>(false);
+  useEffect(() => {
+    getActive()
+      .then((data) => {
+        if (data.isActive) {
+          setIsActive(true);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
   useEffect(() => {
     const start = () => {
       NProgress.start();
@@ -25,14 +40,21 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
       Router.events.off('routeChangeComplete', end);
       Router.events.off('routeChangeError', end);
     };
-  }, []);
+  }, [isActive]);
+
   return (
     <>
-      <ContactProvider>
-        <CartProvider>
-          <Component {...pageProps} />
-        </CartProvider>
-      </ContactProvider>
+      {!isActive ? (
+        <Maintenance />
+      ) : (
+        <>
+          <ContactProvider>
+            <CartProvider>
+              <Component {...pageProps} />
+            </CartProvider>
+          </ContactProvider>
+        </>
+      )}
     </>
   );
 };
