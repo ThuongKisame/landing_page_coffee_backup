@@ -31,6 +31,21 @@ const Footer = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  function formatPhoneNumber(value: string) {
+    const newValue = value.replace(/\D/g, '');
+
+    if (newValue.length !== 10) {
+      return newValue;
+    }
+
+    const formattedNumber = `${newValue.slice(0, 4)} ${newValue.slice(
+      4,
+      7
+    )} ${newValue.slice(7)}`;
+
+    return formattedNumber;
+  }
+
   return (
     <footer
       aria-label="Site Footer"
@@ -109,6 +124,9 @@ const Footer = () => {
             </span>
           </Link>
         </ul>
+        <p className="mx-auto mt-4 max-w-md text-center text-base leading-relaxed text-[#E6B325]">
+          Hotline: {formatPhoneNumber(contactContext.phoneNumber)}
+        </p>
       </div>
       {/* <div className="border-t border-gray-300 py-6 text-center text-sm">
         © Copyright {new Date().getFullYear()} {AppConfig.title}. Made with{' '}
